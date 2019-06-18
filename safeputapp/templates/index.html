@@ -26,20 +26,20 @@
                             <label for="formGroupExampleInput">Şifre</label>
                             <input type="password" name="sifre" class="form-control" id="formGroupExampleInput">
                         </div>
-
+                        <hr>
                         <button type="submit" class="btn btn-danger">Giriş</button>
                     </form>
 
-                    <hr>
+                    
 
+                    {% if alert %}
 
-                {% if not kullanici %}
+                        <hr>
 
-                     <div class="alert alert-danger">
-                        Kayıt bulunamadı.
-                    </div> 
-
-                {% endif %}
+                        <div class="alert alert-danger">
+                            {{ alert }}
+                        </div>
+                    {% endif %} 
 
             </div>
 

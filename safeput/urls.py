@@ -15,13 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from safeputapp.views import index, anasayfa, eposta, epostaGonder
+from safeputapp.views import index, anasayfa, epostaGonder, epostaListe, firmaListe, firmaEkle
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', index),
     url(r'^anasayfa', anasayfa),
-    url(r'^eposta', eposta),
     url(r'^epostaGonder', epostaGonder),
-
+    url(r'^epostaListe', epostaListe),
+    url(r'^firmaListe', firmaListe),
+    url(r'^firmaEkle', firmaEkle),
 ]

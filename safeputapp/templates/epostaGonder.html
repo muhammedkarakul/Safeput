@@ -9,24 +9,30 @@
 
         <body>
         
-            <div style="margin-top: 150px" class="container">
+            <div class="container">
+
+                <nav class="navbar navbar-light bg-light">
+                    <a class="navbar-brand" href="epostaListe">
+                        <img src="https://image.flaticon.com/icons/svg/118/118739.svg" width="30" height="30" alt=""> Geri Dön
+                    </a>
+                </nav>
 
                 <h3>Eposta Gönder</h3>
                 
                 <hr>
 
-                <form action="anasayfa" method="post">
+                <form action="epostaGonder" method="post">
 
                     {% csrf_token %}
                     
                     <div class="form-group">
                         <label for="formGroupExampleInput">Başlık</label>
-                        <input type="text" name="kadi" class="form-control" id="formGroupExampleInput">
+                        <input type="text" name="baslik" class="form-control" id="formGroupExampleInput">
                     </div>
 
                     <div class="form-group">
-                        <label for="formGroupExampleInput">Mesaj</label>
-                        <input type="password" name="sifre" class="form-control" id="formGroupExampleInput">
+                        <label for="exampleFormControlTextarea1">Mesaj</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="10" name="mesaj"></textarea>
                     </div>
 
                     {% comment %} <div class="form-group">
@@ -48,7 +54,7 @@
                     </div> {% endcomment %}
 
                     <div class="form-group">
-                        <label for="formGroupExampleInput">İş</label>
+                        <label for="formGroupExampleInput">İlgili İş</label>
                 
                         <select class="custom-select" id="inputGroupSelect01">
                             <option selected>İlgili İş Seçimi Yapın</option>
@@ -64,16 +70,18 @@
                         </select>
                     </div>
 
-                    <div class="form-group">
+                    {% comment %} <div class="form-group">
                         <label for="formGroupExampleInput">Bağlantı</label>
-                        <input type="password" name="sifre" class="form-control" id="formGroupExampleInput">
-                    </div>
+                        <input type="text" name="baglanti" class="form-control" id="formGroupExampleInput">
+                    </div> {% endcomment %}
 
-                    <button type="submit" class="btn btn-danger">Giriş</button>
+                    <hr>
+
+                    <button type="submit" class="btn btn-danger">Gönder</button>
 
                 </form>
 
-                <hr>
+                
 
             </div>
 

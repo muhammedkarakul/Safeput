@@ -9,11 +9,15 @@
 
         <body>
         
-            <div style="margin-top: 150px" class="container">
+            <div class="container">
+
+                <nav class="navbar navbar-light bg-light">
+                    <a class="navbar-brand" href="anasayfa">
+                        <img src="https://image.flaticon.com/icons/svg/118/118739.svg" width="30" height="30" alt=""> Geri Dön
+                    </a>
+                </nav>
 
                 <h3>Kayıtlı Epostalar</h3>
-                
-                <hr>
 
                 {% if epostalar %}
 
@@ -22,26 +26,23 @@
                             <tr>
                             <th scope="col">ID</th>
                             <th scope="col">Başlık</th>
-                            <th scope="col">Durum</th>
+                            <th scope="col">İş Adı</th>
+                            <th scope="col">Tarih</th>
                             <th scope="col"></th>
                             <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
 
-                            {% for todo in todos %}
+                            {% for eposta in epostalar %}
                                 <tr>
-                                    <th scope="row"> {{ todo.id }} </th>
-                                    <td> {{ todo.title }} </td>
-
-                                    {% if todo.copleted %}
-                                        <td style="color: green;"> Yapıldı </td>
-                                    {% else %}
-                                        <td style="color: red;"> Yapılacak </td>
-                                    {% endif %}
+                                    <th scope="row"> {{ eposta.id }} </th>
+                                    <td> {{ eposta.baslik }} </td>
+                                    <td> {{ eposta.is_id }} </td>
+                                    <td> {{ eposta.olusturma_tarihi }} </td>
                                     
-                                    <td><a href="/update/{{todo.id}}" class="btn btn-danger">Düzenle</td>
-                                    <td><a href="/delete/{{todo.id}}" class="btn btn-danger">Sil</td>
+                                    <td><a href="/update/{{eposta.id}}" class="btn btn-danger">Düzenle</td>
+                                    <td><a href="/delete/{{eposta.id}}" class="btn btn-danger">Sil</td>
                                 </tr>
                             {% endfor %}
 
@@ -57,6 +58,8 @@
                 {% endif %}
 
                 <hr>
+
+                <a href="epostaGonder" class="btn btn-primary"> Yeni Gönder </a>
 
             </div>
 

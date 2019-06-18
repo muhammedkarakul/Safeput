@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
+
 from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
+
+import datetime
 
 # Üstünde işlem yapacağımız modelleri ekliyoruz.
 from .models import Firma, Is, Personel, Belge, BelgeDurum, Eposta, Kullanici
@@ -10,21 +13,23 @@ from .models import Firma, Is, Personel, Belge, BelgeDurum, Eposta, Kullanici
 
 def index(request):
 
-    request.session['kadi'] = ""
+    request.session['kullanici'] = ""
 
     return render(request, "index.html")
 
 def anasayfa(request):
+
     if request.method == "GET":
         #GET tipi istekler buraya duser.
 
         #Ana sayfaya don.
-        return redirect("/")
+
+        return render(request, "anasayfa.html")
 
     else:
         #POST tipi istekler buraya dusur.
 
-        if request.session['kadi'] :
+        if request.session.get('kullanici'):
 
             return render(request, "anasayfa.html")
 
@@ -34,18 +39,20 @@ def anasayfa(request):
             sifre = request.POST.get("sifre")
 
             # Form nesnemizin degerini almak.
-            kullanici = Kullanici.objects.filter(ad = kullaniciAd, sifre = sifre)
+            kullanici = Kullanici.objects.filter(ad = kullaniciAd, sifre = sifre).first()
 
             if not kullanici :
-                return redirect("/", { "kullanici" : kullanici } )
+
+                return render(request, "index.html", { "alert" : "Kullanıcı bulunamadı!" })
+
             else:
 
-                request.session['kadi'] = kullaniciAd
+                request.session['kullanici'] = kullanici.id
 
                 return render(request, "anasayfa.html")
 
 
-def eposta(request):
+def epostaGonder(request):
 
     # Anasayfada eposta sekmesine tıkladığında burası çalışacak
 
@@ -53,14 +60,35 @@ def eposta(request):
     isler = Is.objects.all()
 
     # Eposta sayfasına git. Is nesnelerini de sayfaya aktar.
-    return render( request, "eposta.html", { "isler" : isler } )
-
-def epostaGonder(request):
-
-    return redirect("/anasayfa")
-
-
-    #if request.method == "POST":
-        # Eposta gönderim işlemi yapıldığında burası çalışacak
-    #    return render(request, "anasayfa.html")
+    return render( request, "epostaGonder.html", { "isler" : isler } )
     
+def epostaListe(request):
+
+    epostalar = Eposta.objects.all()
+
+    return render( request, "epostaListe.html", { "epostalar" : epostalar } )
+
+def firmaListe(request):
+
+    firmalar = Firma.objects.all()
+
+    return render( request, "firmaListe.html", { "firmalar" : firmalar } )
+
+def firmaEkle(request):
+    kutuk_no = request.POST.get("kutuk_no")
+    unvan = request.POST.get("unvan")
+    adres = request.POST.get("adres")
+    posta_kodu = request.POST.get("posta_kodu")
+    sehir = request.POST.get("sehir")
+    telefon = request.POST.get("telefon")
+    faks = request.POST.get("faks")
+    eposta = request.POST.get("eposta")
+    aktifmi = True
+    olusturma_tarihi = datetime.datetime.now()
+
+    if kutuk_no and unvan and adres and posta_kodu and sehir and telefon and faks and eposta and aktifmi and olusturma_tarihi :
+        yeniFirma = Firma(unvan = unvan, kutuk_no = kutuk_no, adres = adres, posta_kodu = posta_kodu, sehir = sehir, telefon = telefon, faks = faks, eposta = eposta)
+    else:    
+        
+
+    return render( request, "firmaEkle.html")
