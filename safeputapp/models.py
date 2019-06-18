@@ -19,9 +19,13 @@ class Firma(models.Model):
     olusturma_tarihi = models.DateTimeField(auto_now_add = True, blank = True, verbose_name = "Oluşturma Tarihi")
     duzunleme_tarihi = models.DateTimeField(verbose_name = "Duzenleme Tarihi", blank = True, null = True)
 
+    def __unicode__(self):
+        return self.unvan
+
 
 # İş nesnesini tanımlayan model.
 class Is(models.Model):
+    ad = models.CharField(max_length = 50, verbose_name = "Ad")
     tanim = models.CharField(max_length = 250, verbose_name = "Tanım")
     fatura_no = models.CharField(max_length = 20, verbose_name = "Fatura Numarası")
     guvenlik_seviye = models.CharField(max_length = 20, verbose_name = "Güvenlik Seviyesi")
@@ -30,6 +34,10 @@ class Is(models.Model):
     firma_id = models.ForeignKey(Firma, on_delete = models.CASCADE, verbose_name = "Firma")
     olusturma_tarihi = models.DateTimeField(auto_now_add = True, blank = True, verbose_name = "Oluşturma Tarihi")
     duzunleme_tarihi = models.DateTimeField(verbose_name = "Duzenleme Tarihi", blank = True, null = True)
+    baglanti = models.CharField(max_length = 100, verbose_name = "Bağlantı")
+
+    def __unicode__(self):
+        return self.ad
 
 
 # Personel nesnesini tanımlayan model.
@@ -48,12 +56,19 @@ class Personel(models.Model):
     olusturma_tarihi = models.DateTimeField(auto_now_add = True, blank = True, verbose_name = "Oluşturma Tarihi")
     duzunleme_tarihi = models.DateTimeField(verbose_name = "Duzenleme Tarihi", blank = True, null = True)
 
+    def __unicode__(self):
+        return self.ad
+
 # BelgeDurum nesnesini tanimlayan model.
 class BelgeDurum(models.Model):
+    ad = models.CharField(max_length = 50, verbose_name = "Ad")
     durum = models.CharField(max_length = 20, verbose_name = "Durum")
     aktifmi = models.BooleanField(verbose_name = "Aktif mi?", default = True)
     olusturma_tarihi = models.DateTimeField(auto_now_add = True, blank = True, verbose_name = "Oluşturma Tarihi")
     duzunleme_tarihi = models.DateTimeField(verbose_name = "Duzenleme Tarihi", blank = True, null = True)
+
+    def __unicode__(self):
+        return self.ad
 
 # Belge nesnesini tanımlayan model.
 class Belge(models.Model):
@@ -66,6 +81,9 @@ class Belge(models.Model):
     olusturma_tarihi = models.DateTimeField(auto_now_add = True, blank = True, verbose_name = "Oluşturma Tarihi")
     duzunleme_tarihi = models.DateTimeField(verbose_name = "Duzenleme Tarihi", blank = True, null = True)
 
+    def __unicode__(self):
+        return self.ad
+
 
 # Eposta nesnesini tanımlayan model.
 class Eposta(models.Model):
@@ -77,5 +95,14 @@ class Eposta(models.Model):
     olusturma_tarihi = models.DateTimeField(auto_now_add = True, blank = True, verbose_name = "Oluşturma Tarihi")
     duzunleme_tarihi = models.DateTimeField(verbose_name = "Duzenleme Tarihi", blank = True, null = True)
 
+    def __unicode__(self):
+        return self.ad
 
 
+# Kullanici nesnesini tanımlayan model.
+class Kullanici(models.Model):
+    ad = models.CharField(max_length = 50, verbose_name = "Ad", null = False, blank = False)
+    sifre = models.CharField(max_length = 50, verbose_name = "Şifre", null = False, blank = False)
+
+    def __unicode__(self):
+        return self.ad
