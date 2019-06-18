@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from safeputapp.views import index, anasayfa, epostaGonder, epostaListe, firmaListe, firmaEkle
+from safeputapp.views import index, anasayfa, epostaGonder, epostaListe, firmaListe, firmaEkle, isListe, isEkle
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -25,4 +25,6 @@ urlpatterns = [
     url(r'^epostaListe', epostaListe),
     url(r'^firmaListe', firmaListe),
     url(r'^firmaEkle', firmaEkle),
+    url(r'^isListe', isListe),
+    url(r'^isEkle', isEkle),
 ]

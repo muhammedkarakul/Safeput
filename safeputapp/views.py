@@ -86,9 +86,26 @@ def firmaEkle(request):
     aktifmi = True
     olusturma_tarihi = datetime.datetime.now()
 
-    if kutuk_no and unvan and adres and posta_kodu and sehir and telefon and faks and eposta and aktifmi and olusturma_tarihi :
-        yeniFirma = Firma(unvan = unvan, kutuk_no = kutuk_no, adres = adres, posta_kodu = posta_kodu, sehir = sehir, telefon = telefon, faks = faks, eposta = eposta)
-    else:    
-        
 
-    return render( request, "firmaEkle.html")
+    if request.POST.get("ekle") :
+        if kutuk_no and unvan and adres and posta_kodu and sehir and telefon and faks and eposta and aktifmi and olusturma_tarihi :
+            yeniFirma = Firma(unvan = unvan, kutuk_no = kutuk_no, adres = adres, posta_kodu = posta_kodu, sehir = sehir, telefon = telefon, faks = faks, eposta = eposta, aktifmi = aktifmi, olusturma_tarihi = olusturma_tarihi)
+            yeniFirma.save()
+            return render( request, "firmaEkle.html", { "firma" : yeniFirma, "alert" : "Firma ekleme işlemi başarılı." } )
+        else:    
+            return render( request, "firmaEkle.html", { "alert" : "Firma ekleme işlemi başarısız oldu. Tüm alanları doğru şekilde doldurup tekrar deneyin." })
+    else:
+        return render( request, "firmaEkle.html")
+
+def isListe(request):
+
+    isler = Is.objects.all()
+
+    return render(request, "isListe.html", { "isler" : isler })
+
+def isEkle(request):
+
+    firmalar = Firma.objects.all()
+
+    return render(request, "isEkle.html", { "firmalar" : firmalar })
+        

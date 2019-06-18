@@ -22,14 +22,21 @@ class Firma(models.Model):
     def __unicode__(self):
         return self.unvan
 
+# IsDurum nesnesini tanımlayan model.
+class IsDurum(models.Model):
+    tanim = models.CharField(max_length = 50, verbose_name = "Tanım", null = False, blank = False)
 
-# İş nesnesini tanımlayan model.
+    def __unicode__(self):
+        return self.tanim
+
+# Is nesnesini tanımlayan model.
 class Is(models.Model):
     ad = models.CharField(max_length = 50, verbose_name = "Ad")
     tanim = models.CharField(max_length = 250, verbose_name = "Tanım")
     fatura_no = models.CharField(max_length = 20, verbose_name = "Fatura Numarası")
     guvenlik_seviye = models.CharField(max_length = 20, verbose_name = "Güvenlik Seviyesi")
-    is_onay = models.BooleanField(verbose_name = "İş Onayı", default = False)
+    #is_onay = models.BooleanField(verbose_name = "İş Onayı", default = False)
+    is_durum = models.ForeignKey(IsDurum, on_delete = models.CASCADE, verbose_name = "Durum")
     aktifmi = models.BooleanField(verbose_name = "Aktif mi?", default = True)
     firma_id = models.ForeignKey(Firma, on_delete = models.CASCADE, verbose_name = "Firma")
     olusturma_tarihi = models.DateTimeField(auto_now_add = True, blank = True, verbose_name = "Oluşturma Tarihi")
