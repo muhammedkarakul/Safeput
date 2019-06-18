@@ -15,12 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from safeputapp.views import index, kullaniciGiris, eposta, epostaGonder
+from safeputapp.views import index, anasayfa, eposta, epostaGonder
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', index),
-    url(r'^kullaniciGiris', kullaniciGiris),
+    url(r'^anasayfa', anasayfa),
     url(r'^eposta', eposta),
     url(r'^epostaGonder', epostaGonder),
 

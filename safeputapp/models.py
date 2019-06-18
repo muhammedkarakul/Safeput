@@ -87,7 +87,7 @@ class Belge(models.Model):
 
 # Eposta nesnesini tanımlayan model.
 class Eposta(models.Model):
-    ad = models.CharField(max_length = 50, verbose_name = "Başlık")
+    baslik = models.CharField(max_length = 50, verbose_name = "Başlık")
     mesaj = models.CharField(max_length = 1000, verbose_name = "Mesaj")
     is_id = models.ForeignKey(Is, on_delete = models.CASCADE, verbose_name = "İş")
     baglanti_link = models.CharField(max_length = 100, verbose_name = "Bağlantı Linki")
@@ -96,7 +96,7 @@ class Eposta(models.Model):
     duzunleme_tarihi = models.DateTimeField(verbose_name = "Duzenleme Tarihi", blank = True, null = True)
 
     def __unicode__(self):
-        return self.ad
+        return self.baslik
 
 
 # Kullanici nesnesini tanımlayan model.
