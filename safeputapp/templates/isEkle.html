@@ -19,70 +19,67 @@
 
                 <h3>İş Ekle</h3>
 
-                {% if mevcutIs %}
-
-                    {% if alert %}
-
-                        <div class="alert alert-success">
-                            {{ alert }}
-                        </div>
-
-                    {% endif %}
-
-                {% else %}
-
-                    {% if alert %}
-                    
-                        <div class="alert alert-danger">
-                            {{ alert }}
-                        </div>
-                    
-                    {% endif %}
-
+                {% if alert %}
+                
+                    <div class="alert alert-danger">
+                        {{ alert }}
+                    </div>
+                
                 {% endif %}
 
-                <form action="firmaEkle" method="post">
+                {% comment %} {% endif %} {% endcomment %}
+
+                <form action="isEkle" method="post">
 
                     {% csrf_token %}
                     
                     <div class="form-group">
-                        <label for="formGroupExampleInput">Kütük Numarası</label>
-                        <input type="text" name="kutuk_no" class="form-control" id="formGroupExampleInput">
+                        <label for="formGroupExampleInput">Ad</label>
+                        <input type="text" name="ad" class="form-control" id="formGroupExampleInput">
                     </div>
                     
                     <div class="form-group">
-                        <label for="formGroupExampleInput">Ünvan</label>
-                        <input type="text" name="unvan" class="form-control" id="formGroupExampleInput">
+                        <label for="formGroupExampleInput">Tanım</label>
+                        <input type="text" name="tanim" class="form-control" id="formGroupExampleInput">
                     </div>
 
                     <div class="form-group">
-                        <label for="formGroupExampleInput">Adres</label>
-                        <input type="text" name="adres" class="form-control" id="formGroupExampleInput">
+                        <label for="formGroupExampleInput">Fatura Numarası</label>
+                        <input type="text" name="fatura_no" class="form-control" id="formGroupExampleInput">
                     </div>
 
                     <div class="form-group">
-                        <label for="formGroupExampleInput">Posta Kodu</label>
-                        <input type="text" name="posta_kodu" class="form-control" id="formGroupExampleInput">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="formGroupExampleInput">Şehir</label>
-                        <input type="text" name="sehir" class="form-control" id="formGroupExampleInput">
+                        <label for="formGroupExampleInput">Güvenlik Seviyesi</label>
+                
+                        <select class="custom-select" id="inputGroupSelect01" name="guvenlik_seviye">
+                            <option selected value="0">Güvenlik Seviyesi Seçimi Yapın</option>
+                            
+                            {% if seviyeler %}
+                                {% for seviye in seviyeler %}
+                                    <option value="{{ seviye.id }}">{{ seviye.ad }}</option>        
+                                {% endfor %}
+                            {% else %}
+                                <option value="seviye_yok">Güvenlik Seviyesi Bulunamadı!</option>
+                            {% endif %}
+
+                        </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="formGroupExampleInput">Telefon</label>
-                        <input type="text" name="telefon" class="form-control" id="formGroupExampleInput">
-                    </div>
+                        <label for="formGroupExampleInput">Firma</label>
+                
+                        <select class="custom-select" id="inputGroupSelect01" name="firma_id">
+                            <option selected value="0">Firma Seçimi Yapın</option>
+                            
+                            {% if firmalar %}
+                                {% for firma in firmalar %}
+                                    <option value="{{ firma.id }}">{{ firma.unvan }}</option>        
+                                {% endfor %}
+                            {% else %}
+                                <option value="firma_yok">Firma Bulunamadı!</option>
+                            {% endif %}
 
-                    <div class="form-group">
-                        <label for="formGroupExampleInput">Faks</label>
-                        <input type="text" name="faks" class="form-control" id="formGroupExampleInput">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="formGroupExampleInput">Eposta</label>
-                        <input type="text" name="eposta" class="form-control" id="formGroupExampleInput">
+                        </select>
                     </div>
 
                     <hr>

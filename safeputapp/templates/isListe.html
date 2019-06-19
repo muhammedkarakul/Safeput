@@ -32,6 +32,7 @@
                                 <th scope="col">Durum</th>
                                 <th scope="col"></th>
                                 <th scope="col"></th>
+                                <th scope="col"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -42,14 +43,10 @@
                                         <td> {{ mevcutIs.ad }} </td>
                                         <td> {{ mevcutIs.tanim }} </td>
                                         <td> {{ mevcutIs.guvenlik_seviye }} </td>
+                                        <td> {{ mevcutIs.is_durum }} </td>
                                         
-                                        {% if mevcutIs.is_onay %}
-                                            <td style="color: green;"> Onaylandı </td>
-                                        {% else %}
-                                            <td style="color: red;"> Reddedildi </td>
-                                        {% endif %}
-                                        
-                                        <td><a href="/update/{{mevcutIs.id}}" class="btn btn-danger">Düzenle</td>
+                                        <td><a href="/update/{{mevcutIs.id}}" class="btn btn-warning">Detay</td>
+                                        <td><a href="/update/{{mevcutIs.id}}" class="btn btn-primary">Düzenle</td>
                                         <td><a href="/delete/{{mevcutIs.id}}" class="btn btn-danger">Sil</td>
                                     </tr>
                                 {% endfor %}

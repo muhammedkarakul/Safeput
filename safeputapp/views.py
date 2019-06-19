@@ -2,12 +2,15 @@
 
 from __future__ import unicode_literals
 
-from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse, HttpResponseRedirect
+
+from django.core.mail import send_mail
+from django.conf import settings
 
 import datetime
 
 # Üstünde işlem yapacağımız modelleri ekliyoruz.
-from .models import Firma, Is, Personel, Belge, BelgeDurum, Eposta, Kullanici
+from .models import Firma, Is, Personel, Belge, BelgeDurum, Eposta, Kullanici, GuvenlikSeviye, IsDurum
 
 # Create your views here.
 
@@ -59,8 +62,46 @@ def epostaGonder(request):
     # Is veri tabanındaki bütün nesneleri alır.
     isler = Is.objects.all()
 
+    baslik = request.POST.get("baslik")
+    mesaj = request.POST.get("mesaj")
+    aktifmi = True
+    is_id = request.POST.get("is_id")
+    olusturma_tarihi = datetime.datetime.now()
+
+    if request.POST.get("gonder"):
+
+        if baslik and mesaj and is_id and aktifmi and olusturma_tarihi:
+
+            is_nesnesi = Is.objects.filter(id = request.POST.get("is_id")).first()
+
+            print("FIRMA ID")
+            print(is_nesnesi.firma_id)
+
+            firma_nesnesi = Firma.objects.get(unvan = is_nesnesi.firma_id)
+            baglanti_link = is_nesnesi.baglanti
+
+            print("FİRMA EPOSTA")
+            print(firma_nesnesi.eposta)
+
+            yeniEposta = Eposta(baslik = baslik, mesaj = mesaj, is_id = is_nesnesi, baglanti_link = baglanti_link, aktifmi = aktifmi, olusturma_tarihi = olusturma_tarihi)
+
+            yeniEposta.save()
+
+            epostaMesaj = mesaj + "\n\n" + "Tanım:\n" + is_nesnesi.tanim + "\n\n" + "Bağlantı:\n" + is_nesnesi.baglanti
+
+            send_mail( yeniEposta.baslik, epostaMesaj, "muhammedkarakul@gmail.com", [ firma_nesnesi.eposta ])
+
+
+            return HttpResponseRedirect(request.path_info, { "isler" : isler } )
+
+        else:
+            
+            return render( request, "epostaGonder.html", { "isler" : isler }, { "alert" : "E-posta gönderme işlemi başarısız oldu. Tüm alanları doğru şekilde doldurup tekrar deneyin." })
+
+    else:
+        
     # Eposta sayfasına git. Is nesnelerini de sayfaya aktar.
-    return render( request, "epostaGonder.html", { "isler" : isler } )
+        return render( request, "epostaGonder.html", { "isler" : isler } )
     
 def epostaListe(request):
 
@@ -105,7 +146,56 @@ def isListe(request):
 
 def isEkle(request):
 
-    firmalar = Firma.objects.all()
+    isDurumlari = IsDurum.objects.all().first()
 
-    return render(request, "isEkle.html", { "firmalar" : firmalar })
+    ad = request.POST.get("ad")
+    tanim = request.POST.get("tanim")
+    fatura_no = request.POST.get("fatura_no")
+    guvenlik_seviye = GuvenlikSeviye.objects.filter(id = request.POST.get("guvenlik_seviye")).first() #GuvenlikSeviye.objects.filter( id = request.POST.get("guvenlik_seviye") )
+    is_durum = isDurumlari
+    aktifmi = True
+    firma_id = Firma.objects.filter(id = request.POST.get("firma_id")).first() #Firma.objects.filter(id = request.POST.get("firma_id"))
+    olusturma_tarihi = datetime.datetime.now()
+    
+    firmalar = Firma.objects.all()
+    guvenlikSeviyeleri = GuvenlikSeviye.objects.all()
+
+    if request.POST.get("ekle") :
+
+        if ad and tanim and fatura_no and guvenlik_seviye and is_durum and aktifmi and firma_id and olusturma_tarihi:
+
+            #print("PARAMETRELER")
+            #print(ad + tanim + fatura_no + guvenlik_seviye + is_durum + aktifmi + firma_id + olusturma_tarihi)
+
+            yeniIs = Is(ad = ad, tanim = tanim, fatura_no = fatura_no, guvenlik_seviye = guvenlik_seviye, is_durum = is_durum, aktifmi = aktifmi, firma_id = firma_id, olusturma_tarihi = olusturma_tarihi)
+            
+            yeniIs.save()
+
+            baglanti = "http://127.0.0.1:8000/firmaAnasayfa/" + str(yeniIs.id)
+
+            Is.objects.filter( id = yeniIs.id ).update( baglanti = baglanti )
+
+            return HttpResponseRedirect(request.path_info, { "firmalar" : firmalar, "seviyeler" : guvenlikSeviyeleri } )
+        else:
+            
+            return render( request, "isEkle.html", { "firmalar" : firmalar, "seviyeler" : guvenlikSeviyeleri, "alert" : "İş ekleme işlemi başarısız oldu. Tüm alanları doğru şekilde doldurup tekrar deneyin." })
+
+    else:
+
+        return render(request, "isEkle.html", { "firmalar" : firmalar, "seviyeler" : guvenlikSeviyeleri })
         
+
+def firmaAnasayfa(request, id):
+
+    mevcutIs = get_object_or_404(Is, id = id)
+
+    request.session['mevcutIs'] = mevcutIs.id
+
+    return render(request, "firma_anasayfa.html", { "mevcutIs" : mevcutIs })
+
+def cikisYap(request):
+
+    request.session['kullanici'] = ""
+
+    return render(request, "index.html")
+    

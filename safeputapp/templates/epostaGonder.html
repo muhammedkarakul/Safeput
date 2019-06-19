@@ -35,28 +35,10 @@
                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="10" name="mesaj"></textarea>
                     </div>
 
-                    {% comment %} <div class="form-group">
-                        <label for="formGroupExampleInput">Firmalar</label>
-                
-                        <select class="custom-select" id="inputGroupSelect01">
-                            <option selected>İlgili Firma Seçimi Yapın</option>
-                            
-                            {% if firmalar %}
-                                {% for ilgiliFirma in firmalar %}
-                                    <option value="{{ ilgiliFirma.id }}">{{ ilgiliFirma.ad }}</option>        
-                                {% endfor %}
-                            {% else %}
-                                <option value="firma_bulunamadi">Firma Bulunamadı!</option> 
-                            {% endif %}
-
-                        </select>
-            
-                    </div> {% endcomment %}
-
                     <div class="form-group">
                         <label for="formGroupExampleInput">İlgili İş</label>
                 
-                        <select class="custom-select" id="inputGroupSelect01">
+                        <select class="custom-select" id="inputGroupSelect01" name="is_id">
                             <option selected>İlgili İş Seçimi Yapın</option>
                             
                             {% if isler %}
@@ -70,14 +52,9 @@
                         </select>
                     </div>
 
-                    {% comment %} <div class="form-group">
-                        <label for="formGroupExampleInput">Bağlantı</label>
-                        <input type="text" name="baglanti" class="form-control" id="formGroupExampleInput">
-                    </div> {% endcomment %}
-
                     <hr>
 
-                    <button type="submit" class="btn btn-danger">Gönder</button>
+                    <button type="submit" name="gonder" value="gonder" class="btn btn-danger">Gönder</button>
 
                 </form>
 

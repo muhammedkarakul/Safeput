@@ -29,13 +29,27 @@ class IsDurum(models.Model):
     def __unicode__(self):
         return self.tanim
 
+# GuvenlikSeviye nesnesini tanımlayan model.
+class GuvenlikSeviye(models.Model):
+    ad = models.CharField(max_length = 50, verbose_name = "Ad", null = False, blank = False)
+    
+    def __unicode__(self):
+        return self.ad
+
+# GuvenlikBelgeTurleri nesnesini tanımlayan model.
+class GuvenlikBelgeTurleri(models.Model):
+    ad = models.CharField(max_length = 50, verbose_name = "Ad", null = False, blank = False)
+    guvenlik_seviye = models.ForeignKey(GuvenlikSeviye, on_delete = models.CASCADE, verbose_name = "Güvenlik Seviyesi")
+
+    def __unicode__(self):
+        return self.ad
+
 # Is nesnesini tanımlayan model.
 class Is(models.Model):
     ad = models.CharField(max_length = 50, verbose_name = "Ad")
     tanim = models.CharField(max_length = 250, verbose_name = "Tanım")
     fatura_no = models.CharField(max_length = 20, verbose_name = "Fatura Numarası")
-    guvenlik_seviye = models.CharField(max_length = 20, verbose_name = "Güvenlik Seviyesi")
-    #is_onay = models.BooleanField(verbose_name = "İş Onayı", default = False)
+    guvenlik_seviye = models.ForeignKey(GuvenlikSeviye, on_delete = models.CASCADE, verbose_name = "Güvenlik Seviyesi")
     is_durum = models.ForeignKey(IsDurum, on_delete = models.CASCADE, verbose_name = "Durum")
     aktifmi = models.BooleanField(verbose_name = "Aktif mi?", default = True)
     firma_id = models.ForeignKey(Firma, on_delete = models.CASCADE, verbose_name = "Firma")
