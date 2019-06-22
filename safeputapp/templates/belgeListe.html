@@ -20,15 +20,15 @@
                 <h3>Kayıtlı Firmalar</h3>
                 
 
-                    {% if firmalar %}
+                    {% if belgeler %}
 
                         <table class="table">
                             <thead>
                                 <tr>
                                 <th scope="col">ID</th>
-                                <th scope="col">Ünvan</th>
-                                <th scope="col">Telefon</th>
-                                <th scope="col">E-Posta</th>
+                                <th scope="col">Ad</th>
+                                <th scope="col">Açıklama</th>
+                                <th scope="col">Personel</th>
                                 <th scope="col"></th>
                                 <th scope="col"></th>
                                 <th scope="col"></th>
@@ -36,11 +36,12 @@
                             </thead>
                             <tbody>
 
-                                {% for firma in firmalar %}
+                                {% for belge in belgeler %}
                                     <tr>
-                                        <th scope="row"> {{ firma.id }} </th>
-                                        <td> {{ firma.unvan }} </td>
-                                        <td> {{ firma.telefon }} </td>
+                                        <th scope="row"> {{ belge.id }} </th>
+                                        <td> {{ belge.ad }} </td>
+                                        <td> {{ belge.aciklama }} </td>
+                                        <td> {{ belge.eposta }} </td>
                                         <td> {{ firma.eposta }} </td>
                                         
                                         <td><a href="/firmaDetay/{{mevcutIs.id}}" class="btn btn-warning">Detay</td>

@@ -171,7 +171,7 @@ def isEkle(request):
             
             yeniIs.save()
 
-            baglanti = "http://127.0.0.1:8000/firmaAnasayfa/" + str(yeniIs.id)
+            baglanti = "http://127.0.0.1:8000/isAnasayfa/" + str(yeniIs.id)
 
             Is.objects.filter( id = yeniIs.id ).update( baglanti = baglanti )
 
@@ -185,17 +185,38 @@ def isEkle(request):
         return render(request, "isEkle.html", { "firmalar" : firmalar, "seviyeler" : guvenlikSeviyeleri })
         
 
-def firmaAnasayfa(request, id):
+def isAnasayfa(request, id):
 
     mevcutIs = get_object_or_404(Is, id = id)
 
     request.session['mevcutIs'] = mevcutIs.id
 
-    return render(request, "firma_anasayfa.html", { "mevcutIs" : mevcutIs })
+    return render(request, "isAnasayfa.html", { "mevcutIs" : mevcutIs })
 
 def cikisYap(request):
 
     request.session['kullanici'] = ""
 
     return render(request, "index.html")
-    
+
+def isSil(request, id):
+
+    mevcutIs = get_object_or_404(Is, id = id)
+
+    mevcutIs.aktifmi = False
+
+    mevcutIs.save()
+
+    return redirect("/isListe")
+
+def personelListe(request):
+    return render(request, "personelListe.html")
+
+def personelEkle(request):
+    return render(request, "personelEkle.html")
+
+def belgeListe(request):
+    return render(request, "belgeListe.html")
+
+def belgeEkle(request):
+    return render(request, "belgeEkle.html", { "mevcutIs" : request.session['mevcutIs'] })

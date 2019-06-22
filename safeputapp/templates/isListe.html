@@ -38,17 +38,24 @@
                             <tbody>
 
                                 {% for mevcutIs in isler %}
-                                    <tr>
-                                        <th scope="row"> {{ mevcutIs.id }} </th>
-                                        <td> {{ mevcutIs.ad }} </td>
-                                        <td> {{ mevcutIs.tanim }} </td>
-                                        <td> {{ mevcutIs.guvenlik_seviye }} </td>
-                                        <td> {{ mevcutIs.is_durum }} </td>
-                                        
-                                        <td><a href="/update/{{mevcutIs.id}}" class="btn btn-warning">Detay</td>
-                                        <td><a href="/update/{{mevcutIs.id}}" class="btn btn-primary">Düzenle</td>
-                                        <td><a href="/delete/{{mevcutIs.id}}" class="btn btn-danger">Sil</td>
-                                    </tr>
+
+                                    {% if mevcutIs.aktifmi %}
+                                    
+                                        <tr>
+                                            <th scope="row"> {{ mevcutIs.id }} </th>
+                                            <td> {{ mevcutIs.ad }} </td>
+                                            <td> {{ mevcutIs.tanim }} </td>
+                                            <td> {{ mevcutIs.guvenlik_seviye }} </td>
+                                            <td> {{ mevcutIs.is_durum }} </td>
+                                            
+                                            <td><a href="/isDetay/{{mevcutIs.id}}" class="btn btn-warning">Detay</td>
+                                            <td><a href="/isDuzenle/{{mevcutIs.id}}" class="btn btn-primary">Düzenle</td>
+                                            <td><a href="/isSil/{{mevcutIs.id}}" class="btn btn-danger">Sil</td>
+                                        </tr>
+                                    
+                                    {% endif %}
+
+                                    
                                 {% endfor %}
 
                             </tbody>
