@@ -15,23 +15,44 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from safeputapp.views import index, anasayfa, epostaGonder, epostaListe, firmaListe, firmaEkle, isListe, isEkle, isAnasayfa, cikisYap, isSil, personelListe, belgeListe, personelEkle, belgeEkle
+from safeputapp.views import index, anasayfa, cikisYap, epostaGonder, epostaListe, epostaSil, firmaListe, firmaEkle, firmaSil, isListe, isEkle, isAnasayfa, isSil, personelListe, personelEkle, personelSil, belgeListe, belgeEkle
 
 urlpatterns = [
+
+    ## Temel
     url(r'^admin/', admin.site.urls),
     url(r'^$', index),
+
+    ## Panel
     url(r'^anasayfa', anasayfa),
+    url(r'^cikisYap', cikisYap),
+
+    ## Eposta
     url(r'^epostaGonder', epostaGonder),
     url(r'^epostaListe', epostaListe),
+    url(r'^epostaSil/(?P<id>\d+)', epostaSil),
+
+    ## Firma
     url(r'^firmaListe', firmaListe),
     url(r'^firmaEkle', firmaEkle),
+    url(r'^firmaSil/(?P<id>\d+)', firmaSil),
+
+    ## Is
     url(r'^isListe', isListe),
     url(r'^isEkle', isEkle),
-    url(r'^cikisYap', cikisYap),
     url(r'^isAnasayfa/(?P<id>\d+)', isAnasayfa),
     url(r'^isSil/(?P<id>\d+)', isSil),
+
+    ## IsPanel
+    url(r'^personelListe', personelListe),
+
+    ## Personel
     url(r'^personelListe', personelListe),
     url(r'^personelEkle', personelEkle),
-    url(r'^belgeListe', personelListe),
-    url(r'^belgeEkle', personelEkle),
+    url(r'^personelSil/(?P<id>\d+)', personelSil),
+
+    ## Belge
+    url(r'^belgeListe', belgeListe),
+    url(r'^belgeEkle', belgeEkle),
+
 ]

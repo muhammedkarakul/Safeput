@@ -12,12 +12,12 @@
             <div class="container">
 
                 <nav class="navbar navbar-light bg-light">
-                    <a class="navbar-brand" href="anasayfa">
+                    <a class="navbar-brand" href="isAnasayfa/{{mevcutIs}}">
                         <img src="https://image.flaticon.com/icons/svg/118/118739.svg" width="30" height="30" alt=""> Geri Dön
                     </a>
                 </nav>
 
-                <h3>Kayıtlı Firmalar</h3>
+                <h3>Kayıtlı Belgeler</h3>
                 
 
                     {% if belgeler %}
@@ -29,6 +29,7 @@
                                 <th scope="col">Ad</th>
                                 <th scope="col">Açıklama</th>
                                 <th scope="col">Personel</th>
+                                <th scope="col">Durum</th>
                                 <th scope="col"></th>
                                 <th scope="col"></th>
                                 <th scope="col"></th>
@@ -41,8 +42,8 @@
                                         <th scope="row"> {{ belge.id }} </th>
                                         <td> {{ belge.ad }} </td>
                                         <td> {{ belge.aciklama }} </td>
-                                        <td> {{ belge.eposta }} </td>
-                                        <td> {{ firma.eposta }} </td>
+                                        <td> {{ belge.personel_id }} </td>
+                                        <td> {{ belge.belge_durum }} </td>
                                         
                                         <td><a href="/firmaDetay/{{mevcutIs.id}}" class="btn btn-warning">Detay</td>
                                         <td><a href="/firmaDuzenle/{{mevcutIs.id}}" class="btn btn-primary">Düzenle</td>
@@ -63,7 +64,7 @@
 
                 <hr>
 
-                <a href="firmaEkle" class="btn btn-primary"> Yeni Firma Ekle </a>
+                <a href="belgeEkle" class="btn btn-primary"> Yeni Belge Ekle </a>
 
             </div>
 

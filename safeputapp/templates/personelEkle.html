@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+    <html>
+        <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+        <title>Safeput</title>
+        </head>
+
+        <body>
+
+            <div class="container">
+
+                <nav class="navbar navbar-light bg-light">
+                    <a class="navbar-brand" href="personelListe">
+                        <img src="https://image.flaticon.com/icons/svg/118/118739.svg" width="30" height="30" alt=""> Geri Dön
+                    </a>
+                </nav>
+
+                <h3>Personel Ekle</h3>
+
+                {% if alert %}
+
+                    {% if alertStatus %}
+
+                        <div class="alert alert-success">
+                            {{ alert }}
+                        </div>
+
+                    {% else %}
+
+                        <div class="alert alert-danger">
+                            {{ alert }}
+                        </div>
+
+                    {% endif %}
+
+                {% endif %}
+
+                <form action="personelEkle" method="post">
+
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <label for="formGroupExampleInput">Ad</label>
+                        <input type="text" name="ad" class="form-control" id="formGroupExampleInput">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="formGroupExampleInput">Soyad</label>
+                        <input type="text" name="soyad" class="form-control" id="formGroupExampleInput">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="formGroupExampleInput">Adres</label>
+                        <input type="text" name="adres" class="form-control" id="formGroupExampleInput">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="formGroupExampleInput">Telefon</label>
+                        <input type="text" name="telefon" class="form-control" id="formGroupExampleInput">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="formGroupExampleInput">E-Posta</label>
+                        <input type="text" name="eposta" class="form-control" id="formGroupExampleInput">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="formGroupExampleInput">TC Numarası</label>
+                        <input type="text" name="tcno" class="form-control" id="formGroupExampleInput">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="formGroupExampleInput">Ehliyet Numarası</label>
+                        <input type="text" name="ehliyet_no" class="form-control" id="formGroupExampleInput">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="formGroupExampleInput">Kan Grubu</label>
+                        <input type="text" name="kan_grubu" class="form-control" id="formGroupExampleInput">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="formGroupExampleInput">SGK Numarası</label>
+                        <input type="text" name="sgk_no" class="form-control" id="formGroupExampleInput">
+                    </div>
+
+                    <hr>
+
+                    <button type="submit" name="ekle" value="ekle" class="btn btn-danger">Ekle</button>
+
+
+                </form>
+
+            </div>
+
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+        </body>
+
+</html>

@@ -7,12 +7,24 @@ from django.shortcuts import render, redirect, get_object_or_404, HttpResponse, 
 from django.core.mail import send_mail
 from django.conf import settings
 
+# Belge işlemleri için eklenen django kütüphaneleri.
+#from django.core.files import File
+#from django.core.files.base import ContentFile
+#from django.core.files.storage import default_storage
+from django.core.files.storage import FileSystemStorage
+
+# Zaman işlemleri için eklenen python kütüphanesi.
 import datetime
 
 # Üstünde işlem yapacağımız modelleri ekliyoruz.
 from .models import Firma, Is, Personel, Belge, BelgeDurum, Eposta, Kullanici, GuvenlikSeviye, IsDurum
 
+# Belgelerin kayıt edileceği konum
+fs = FileSystemStorage(location='documents/')
+
 # Create your views here.
+
+## Temel
 
 def index(request):
 
@@ -20,6 +32,7 @@ def index(request):
 
     return render(request, "index.html")
 
+## Anasayfayı ayarlar. Eğer session devam ediyorsa anasayfaya gider. Session yoksa giriş sayfasına gider.
 def anasayfa(request):
 
     if request.method == "GET":
@@ -54,6 +67,14 @@ def anasayfa(request):
 
                 return render(request, "anasayfa.html")
 
+## Kullanıcı çıkışı yapar ve giriş sayfasına geri döner.
+def cikisYap(request):
+
+    request.session['kullanici'] = ""
+
+    return render(request, "index.html")
+
+## Eposta
 
 def epostaGonder(request):
 
@@ -109,6 +130,18 @@ def epostaListe(request):
 
     return render( request, "epostaListe.html", { "epostalar" : epostalar } )
 
+def epostaSil(request, id):
+
+    eposta = get_object_or_404(Eposta, id = id)
+
+    eposta.aktifmi = False
+
+    eposta.save()
+
+    return redirect("/epostaListe")
+
+## Firma
+
 def firmaListe(request):
 
     firmalar = Firma.objects.all()
@@ -137,6 +170,18 @@ def firmaEkle(request):
             return render( request, "firmaEkle.html", { "alert" : "Firma ekleme işlemi başarısız oldu. Tüm alanları doğru şekilde doldurup tekrar deneyin." })
     else:
         return render( request, "firmaEkle.html")
+
+def firmaSil(request, id):
+
+    firma = get_object_or_404(Firma, id = id)
+
+    firma.aktifmi = False
+
+    firma.save()
+
+    return redirect("/firmaListe")
+
+## Is
 
 def isListe(request):
 
@@ -184,21 +229,6 @@ def isEkle(request):
 
         return render(request, "isEkle.html", { "firmalar" : firmalar, "seviyeler" : guvenlikSeviyeleri })
         
-
-def isAnasayfa(request, id):
-
-    mevcutIs = get_object_or_404(Is, id = id)
-
-    request.session['mevcutIs'] = mevcutIs.id
-
-    return render(request, "isAnasayfa.html", { "mevcutIs" : mevcutIs })
-
-def cikisYap(request):
-
-    request.session['kullanici'] = ""
-
-    return render(request, "index.html")
-
 def isSil(request, id):
 
     mevcutIs = get_object_or_404(Is, id = id)
@@ -209,14 +239,104 @@ def isSil(request, id):
 
     return redirect("/isListe")
 
+
+def isAnasayfa(request, id):
+
+    mevcutIs = get_object_or_404(Is, id = id)
+
+    request.session['mevcutIs'] = mevcutIs.id
+
+    return render(request, "isAnasayfa.html", { "mevcutIs" : mevcutIs })
+
 def personelListe(request):
-    return render(request, "personelListe.html")
+    personeller = Personel.objects.filter(is_id = request.session["mevcutIs"])
+    return render(request, "personelListe.html", {"mevcutIs" : request.session['mevcutIs'], "personeller" : personeller})
 
 def personelEkle(request):
-    return render(request, "personelEkle.html")
+
+    ad = request.POST.get("ad")
+    soyad = request.POST.get("soyad")
+    adres = request.POST.get("adres")
+    telefon = request.POST.get("telefon")
+    eposta = request.POST.get("eposta")
+    tcno = request.POST.get("tcno")
+    ehliyet_no = request.POST.get("ehliyet_no")
+    kan_grubu = request.POST.get("kan_grubu")
+    sgk_no = request.POST.get("sgk_no")
+    is_id = request.session['mevcutIs']
+
+    if request.POST.get("ekle"):
+        if ad and soyad and adres and telefon and eposta and tcno and ehliyet_no and kan_grubu and sgk_no and is_id:
+
+            mevcutIs = Is.objects.get(id = is_id)
+
+            if not Personel.objects.filter(tcno = tcno):
+
+                yeniPersonel = Personel(ad = ad, soyad = soyad, adres = adres, telefon = telefon, eposta = eposta, tcno = tcno, ehliyet_no = ehliyet_no, kan_grubu = kan_grubu, sgk_no = sgk_no, is_id = mevcutIs)
+
+                yeniPersonel.save()
+
+                return  render(request, "personelEkle.html", {"alert" : "Yeni personel başarılı bir şekilde eklendi.", "alertStatus" : True})
+            else:
+                return render(request, "personelEkle.html",
+                              {"alert": "Aynı personel ikinci kez eklenemez. TC numarasının değiştirip tekrar deneyin.", "alertStatus": False})
+        else:
+            return render(request, "personelEkle.html",
+                          {"alert": "Personel ekleme işlemi başarısız! Tüm alanları doldurup tekrar deneyin.", "alertStatus": False})
+    else:
+        return  render(request, "personelEkle.html")
+
+
+def personelSil(request, id):
+
+    personel = get_object_or_404(Personel, id = id)
+
+    personel.aktifmi = False
+
+    personel.save()
+
+    return redirect("/personelListe")
 
 def belgeListe(request):
-    return render(request, "belgeListe.html")
+
+    belgeler = Belge.objects.all()
+
+    return render(request, "belgeListe.html", { "mevcutIs" : request.session['mevcutIs'], "belgeler" : belgeler })
 
 def belgeEkle(request):
-    return render(request, "belgeEkle.html", { "mevcutIs" : request.session['mevcutIs'] })
+
+    personeller = Personel.objects.filter(is_id = request.session['mevcutIs'])
+
+    ad = request.POST.get("ad")
+    aciklama = request.POST.get("aciklama")
+    personel_id = request.POST.get("personel")
+    belge = request.POST.get("belge")
+    belge_durum = BelgeDurum.objects.get(ad = "Onay Bekliyor")
+
+    if request.POST.get("ekle") :
+        if ad and aciklama and personel_id and belge :
+
+            if not Belge.objects.filter(belge = belge):
+
+                #mevcutBelge = File(belge)
+
+                #path = default_storage.save('documents/', request.FILES[mevcutBelge])
+
+
+
+                personel = Personel.objects.get(id = personel_id)
+
+                belge = Belge(ad = ad, aciklama = aciklama, personel_id = personel, belge = path, belge_durum = belge_durum)
+
+                belge.save()
+
+                return render(request, "belgeEkle.html", {"personeller": personeller, "alert" : "Belge ekleme işlemi başarılı.", "alertStatus" : True})
+
+            else :
+
+                return render(request, "belgeEkle.html", {"personeller": personeller, "alert" : "Belge ekleme işlemi başarısız! Aynı belgeyi ikinci defa yükleyemezsiniz. Farklı bir belge yükleyerek tekrar deneyin.", "alertStatus" : False})
+        else:
+            return render(request, "belgeEkle.html",
+                          {"personeller": personeller, "alert": "Belge ekleme işlemi başarısız! Tüm alanları doldurup tekrar deneyin.", "alertStatus": False})
+    else:
+        return render(request, "belgeEkle.html", { "personeller" : personeller})

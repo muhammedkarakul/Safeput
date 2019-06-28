@@ -73,7 +73,9 @@
                             
                             {% if firmalar %}
                                 {% for firma in firmalar %}
-                                    <option value="{{ firma.id }}">{{ firma.unvan }}</option>        
+                                    {% if firma.aktifmi %}
+                                        <option value="{{ firma.id }}">{{ firma.unvan }}</option>
+                                    {% endif %}
                                 {% endfor %}
                             {% else %}
                                 <option value="firma_yok">Firma Bulunamadı!</option>

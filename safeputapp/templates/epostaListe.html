@@ -30,20 +30,28 @@
                             <th scope="col">Tarih</th>
                             <th scope="col"></th>
                             <th scope="col"></th>
+                            <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
 
                             {% for eposta in epostalar %}
-                                <tr>
-                                    <th scope="row"> {{ eposta.id }} </th>
-                                    <td> {{ eposta.baslik }} </td>
-                                    <td> {{ eposta.is_id }} </td>
-                                    <td> {{ eposta.olusturma_tarihi }} </td>
-                                    
-                                    <td><a href="/update/{{eposta.id}}" class="btn btn-danger">Düzenle</td>
-                                    <td><a href="/delete/{{eposta.id}}" class="btn btn-danger">Sil</td>
-                                </tr>
+
+                                {% if eposta.aktifmi %}
+
+                                    <tr>
+                                        <th scope="row"> {{ eposta.id }} </th>
+                                        <td> {{ eposta.baslik }} </td>
+                                        <td> {{ eposta.is_id }} </td>
+                                        <td> {{ eposta.olusturma_tarihi }} </td>
+
+                                        <td><a href="/epostaDetay/{{eposta.id}}" class="btn btn-warning">Detay</td>
+                                        <td><a href="/epostaDuzenle/{{eposta.id}}" class="btn btn-primary">Düzenle</td>
+                                        <td><a href="/epostaSil/{{eposta.id}}" class="btn btn-danger">Sil</td>
+                                    </tr>
+
+                                {% endif %}
+
                             {% endfor %}
 
                         </tbody>

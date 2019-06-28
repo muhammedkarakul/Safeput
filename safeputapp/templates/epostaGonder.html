@@ -42,8 +42,10 @@
                             <option selected>İlgili İş Seçimi Yapın</option>
                             
                             {% if isler %}
-                                {% for ilgiliIs in isler %}
-                                    <option value="{{ ilgiliIs.id }}">{{ ilgiliIs.ad }}</option>        
+                                {% for mevcutIs in isler %}
+                                    {% if mevcutIs.aktifmi %}
+                                        <option value="{{ mevcutIs.id }}">{{ mevcutIs.ad }}</option>
+                                    {%  endif %}
                                 {% endfor %}
                             {% else %}
                                 <option value="is_bulunamadi">İş Bulunamadı!</option>  

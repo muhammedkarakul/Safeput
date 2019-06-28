@@ -37,16 +37,22 @@
                             <tbody>
 
                                 {% for firma in firmalar %}
-                                    <tr>
-                                        <th scope="row"> {{ firma.id }} </th>
-                                        <td> {{ firma.unvan }} </td>
-                                        <td> {{ firma.telefon }} </td>
-                                        <td> {{ firma.eposta }} </td>
-                                        
-                                        <td><a href="/firmaDetay/{{mevcutIs.id}}" class="btn btn-warning">Detay</td>
-                                        <td><a href="/firmaDuzenle/{{mevcutIs.id}}" class="btn btn-primary">Düzenle</td>
-                                        <td><a href="/firmaSil/{{mevcutIs.id}}" class="btn btn-danger">Sil</td>
-                                    </tr>
+
+                                    {% if firma.aktifmi %}
+
+                                        <tr>
+                                            <th scope="row"> {{ firma.id }} </th>
+                                            <td> {{ firma.unvan }} </td>
+                                            <td> {{ firma.telefon }} </td>
+                                            <td> {{ firma.eposta }} </td>
+
+                                            <td><a href="/firmaDetay/{{firma.id}}" class="btn btn-warning">Detay</td>
+                                            <td><a href="/firmaDuzenle/{{firma.id}}" class="btn btn-primary">Düzenle</td>
+                                            <td><a href="/firmaSil/{{firma.id}}" class="btn btn-danger">Sil</td>
+                                        </tr>
+
+                                    {% endif %}
+
                                 {% endfor %}
 
                             </tbody>

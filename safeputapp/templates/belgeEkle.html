@@ -1,10 +1,11 @@
 <!DOCTYPE html>
     <html>
         <head>
-        <meta charset="UTF-8">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+            <meta charset="UTF-8">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-        <title>Safeput</title>
+            <title>Safeput</title>
+
         </head>
 
         <body>
@@ -12,32 +13,39 @@
             
         
             <div class="container">
-
-                {% if mevcutIs %}
             
-                    <nav class="navbar navbar-light bg-light">
-                        <a class="navbar-brand" href="isAnasayfa{{mevcutIs}}">
-                            <img src="https://image.flaticon.com/icons/svg/118/118739.svg" width="30" height="30" alt=""> Geri Dön
-                        </a>
-                    </nav>
-
-                {% endif %}
+                <nav class="navbar navbar-light bg-light">
+                    <a class="navbar-brand" href="belgeListe">
+                        <img src="https://image.flaticon.com/icons/svg/118/118739.svg" width="30" height="30" alt=""> Geri Dön
+                    </a>
+                </nav>
 
                 
 
                 <h3>Belge Ekle</h3>
 
                 {% if alert %}
-                
-                    <div class="alert alert-danger">
-                        {{ alert }}
-                    </div>
+
+                    {%  if alertStatus %}
+
+                        <div class="alert alert-success">
+                            {{ alert }}
+                        </div>
+
+                    {% else %}
+
+                        <div class="alert alert-danger">
+                            {{ alert }}
+                        </div>
+
+                    {% endif %}
+
                 
                 {% endif %}
 
                 {% comment %} {% endif %} {% endcomment %}
 
-                <form action="isEkle" method="post">
+                <form action="belgeEkle" method="post">
 
                     {% csrf_token %}
                     
@@ -47,47 +55,32 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="formGroupExampleInput">Tanım</label>
-                        <input type="text" name="tanim" class="form-control" id="formGroupExampleInput">
+                        <label for="formGroupExampleInput">Açıklama</label>
+                        <input type="text" name="aciklama" class="form-control" id="formGroupExampleInput">
                     </div>
 
                     <div class="form-group">
-                        <label for="formGroupExampleInput">Fatura Numarası</label>
-                        <input type="text" name="fatura_no" class="form-control" id="formGroupExampleInput">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="formGroupExampleInput">Güvenlik Seviyesi</label>
+                        <label for="formGroupExampleInput">Personel</label>
                 
-                        <select class="custom-select" id="inputGroupSelect01" name="guvenlik_seviye">
-                            <option selected value="0">Güvenlik Seviyesi Seçimi Yapın</option>
+                        <select class="custom-select" id="inputGroupSelect01" name="personel">
+                            <option selected value="0">Personel Seçimi Yapın</option>
                             
-                            {% if seviyeler %}
-                                {% for seviye in seviyeler %}
-                                    <option value="{{ seviye.id }}">{{ seviye.ad }}</option>        
+                            {% if personeller %}
+                                {% for personel in personeller %}
+                                    {% if personel.aktifmi %}
+                                        <option value="{{ personel.id }}">{{ personel.ad }}</option>
+                                    {% endif %}
                                 {% endfor %}
                             {% else %}
-                                <option value="seviye_yok">Güvenlik Seviyesi Bulunamadı!</option>
+                                <option value="seviye_yok">Kayıtlı Personel Bulunamadı!</option>
                             {% endif %}
 
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label for="formGroupExampleInput">Firma</label>
-                
-                        <select class="custom-select" id="inputGroupSelect01" name="firma_id">
-                            <option selected value="0">Firma Seçimi Yapın</option>
-                            
-                            {% if firmalar %}
-                                {% for firma in firmalar %}
-                                    <option value="{{ firma.id }}">{{ firma.unvan }}</option>        
-                                {% endfor %}
-                            {% else %}
-                                <option value="firma_yok">Firma Bulunamadı!</option>
-                            {% endif %}
-
-                        </select>
+                    <div class="custom-file mb-3">
+                        <input type="file" class="custom-file-input" id="customFile" name="belge">
+                        <label class="custom-file-label" for="customFile">Choose file</label>
                     </div>
 
                     <hr>
@@ -102,6 +95,14 @@
             <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+            <script>
+            // Add the following code if you want the name of the file appear on select
+            $(".custom-file-input").on("change", function() {
+              var fileName = $(this).val().split("\\").pop();
+              $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+            });
+            </script>
 
         </body>
 
