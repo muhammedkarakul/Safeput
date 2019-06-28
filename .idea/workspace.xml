@@ -1,21 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b15c3735-6737-4e23-b168-55f3490aadb1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/safeput/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/safeput/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/safeputapp/templates/belgeEkle.html" beforeDir="false" afterPath="$PROJECT_DIR$/safeputapp/templates/belgeEkle.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/safeputapp/templates/belgeListe.html" beforeDir="false" afterPath="$PROJECT_DIR$/safeputapp/templates/belgeListe.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/safeputapp/templates/epostaGonder.html" beforeDir="false" afterPath="$PROJECT_DIR$/safeputapp/templates/epostaGonder.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/safeputapp/templates/epostaListe.html" beforeDir="false" afterPath="$PROJECT_DIR$/safeputapp/templates/epostaListe.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/safeputapp/templates/firmaListe.html" beforeDir="false" afterPath="$PROJECT_DIR$/safeputapp/templates/firmaListe.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/safeputapp/templates/isAnasayfa.html" beforeDir="false" afterPath="$PROJECT_DIR$/safeputapp/templates/isAnasayfa.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/safeputapp/templates/isEkle.html" beforeDir="false" afterPath="$PROJECT_DIR$/safeputapp/templates/isEkle.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/safeputapp/templates/personelEkle.html" beforeDir="false" afterPath="$PROJECT_DIR$/safeputapp/templates/personelEkle.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/safeputapp/templates/personelListe.html" beforeDir="false" afterPath="$PROJECT_DIR$/safeputapp/templates/personelListe.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/safeputapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/safeputapp/views.py" afterDir="false" />
-    </list>
+    <list default="true" id="b15c3735-6737-4e23-b168-55f3490aadb1" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,8 +28,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/safeputapp/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="229">
-              <caret line="324" column="16" selection-start-line="324" selection-start-column="16" selection-end-line="324" selection-end-column="16" />
+            <state relative-caret-position="454">
+              <caret line="339" selection-start-line="339" selection-end-line="339" />
               <folding>
                 <element signature="e#25#64#0" expanded="true" />
               </folding>
@@ -240,16 +226,15 @@
       <option name="presentableId" value="Default" />
       <updated>1561246220762</updated>
       <workItem from="1561246223603" duration="1986000" />
-      <workItem from="1561483636325" duration="12253000" />
+      <workItem from="1561483636325" duration="12477000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14239000" />
+    <option name="totallyTimeSpent" value="14463000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12160229" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -373,8 +358,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/safeputapp/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="229">
-          <caret line="324" column="16" selection-start-line="324" selection-start-column="16" selection-end-line="324" selection-end-column="16" />
+        <state relative-caret-position="454">
+          <caret line="339" selection-start-line="339" selection-end-line="339" />
           <folding>
             <element signature="e#25#64#0" expanded="true" />
           </folding>
