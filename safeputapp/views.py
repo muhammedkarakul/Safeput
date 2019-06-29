@@ -13,6 +13,10 @@ from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 #from django.core.files.storage import FileSystemStorage
 
+# Belge indirme işlemleri için eklenen python ve django kütüphaneleri
+import os
+from django.http import HttpResponse, Http404
+
 # Zaman işlemleri için eklenen python kütüphanesi.
 import datetime
 
@@ -414,3 +418,18 @@ def belgeSil(request, id):
     geriDonulecekSayfa = "/{0}/{1}".format("personelDetay" , belge.personel_id.id)
 
     return redirect(geriDonulecekSayfa)
+
+def belgeOnizle(request, id):
+
+    belge = get_object_or_404(Belge, id = id)
+
+    file_path = belge.belge.path
+
+    print (file_path)
+
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
+            response['Content-Disposition'] = 'inline; filename=' + belge.ad + ".pdf"
+            return response
+    raise Http404

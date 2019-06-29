@@ -99,9 +99,13 @@
                                 <th scope="col">Ad</th>
                                 <th scope="col">Açıklama</th>
                                 <th scope="col">Durum</th>
+
+                                    <th scope="col"></th>
+                                    {% comment %}
                                 <th scope="col"></th>
                                 <th scope="col"></th>
                                 <th scope="col"></th>
+                                {% endcomment %}
                                 </tr>
                             </thead>
                             <tbody>
@@ -114,9 +118,12 @@
                                             <td> {{ belge.aciklama }} </td>
                                             <td> {{ belge.belge_durum }} </td>
 
+                                            <td><a href="/belgeOnizle/{{belge.id}}" class="btn btn-warning">İndir</td>
+                                            {% comment %}
                                             <td><a href="/belgeOnizle/{{belge.id}}" class="btn btn-warning">Detay</td>
                                             <td><a href="/belgeOnay/{{belge.id}}" class="btn btn-primary">Düzenle</td>
                                             <td><a href="/belgeSil/{{belge.id}}" class="btn btn-danger">Sil</td>
+                                            {% endcomment %}
                                         </tr>
 
 
@@ -138,9 +145,11 @@
 
                 {% endif %}
 
-                <hr>
+
 
                 {% if yuklenecekBelgeSayisi %}
+
+                    <hr>
 
                     <a href="/belgeEkle/{{ personel.id }}" class="btn btn-primary"> Yeni Belge Ekle </a>
 

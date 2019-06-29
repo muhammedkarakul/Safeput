@@ -20,7 +20,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 
-from safeputapp.views import index, anasayfa, cikisYap, epostaGonder, epostaListe, epostaSil, firmaListe, firmaEkle, firmaSil, firmaDetay, isListe, isEkle, isAnasayfa, isSil, isDetay, personelListe, personelEkle, personelSil, personelBelgeler, personelDetay, belgeListe, belgeEkle, belgeSil
+from safeputapp.views import index, anasayfa, cikisYap, epostaGonder, epostaListe, epostaSil, firmaListe, firmaEkle, firmaSil, firmaDetay, isListe, isEkle, isAnasayfa, isSil, isDetay, personelListe, personelEkle, personelSil, personelBelgeler, personelDetay, belgeListe, belgeEkle, belgeSil, belgeOnizle
 
 urlpatterns = [
 
@@ -64,5 +64,6 @@ urlpatterns = [
     url(r'^belgeListe', belgeListe),
     url(r'^belgeEkle/(?P<id>\d+)', belgeEkle),
     url(r'^belgeSil/(?P<id>\d+)', belgeSil),
+    url(r'^belgeOnizle/(?P<id>\d+)', belgeOnizle),
 
-]
+] + static(settings.DOCUMENTS_URL, document_root=settings.DOCUMENTS_ROOT)

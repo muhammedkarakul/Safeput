@@ -118,9 +118,11 @@
                                 <th scope="col">Başlık</th>
                                 <th scope="col">İş Adı</th>
                                 <th scope="col">Tarih</th>
+                                    {% comment %}
                                 <th scope="col"></th>
                                 <th scope="col"></th>
                                 <th scope="col"></th>
+                                {% endcomment %}
                                 </tr>
                             </thead>
                             <tbody>
@@ -134,10 +136,11 @@
                                             <td> {{ eposta.baslik }} </td>
                                             <td> {{ eposta.is_id }} </td>
                                             <td> {{ eposta.olusturma_tarihi }} </td>
-
+                                            {% comment %}
                                             <td><a href="/epostaDetay/{{eposta.id}}" class="btn btn-warning">Detay</td>
                                             <td><a href="/epostaDuzenle/{{eposta.id}}" class="btn btn-primary">Düzenle</td>
                                             <td><a href="/epostaSil/{{eposta.id}}" class="btn btn-danger">Sil</td>
+                                            {% endcomment %}
                                         </tr>
 
                                     {% endif %}
