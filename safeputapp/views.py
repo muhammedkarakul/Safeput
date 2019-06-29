@@ -430,6 +430,27 @@ def belgeOnizle(request, id):
     if os.path.exists(file_path):
         with open(file_path, 'rb') as fh:
             response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
-            response['Content-Disposition'] = 'inline; filename=' + belge.ad + ".pdf"
+            response['Content-Disposition'] = 'inline; filename=' + belge.personel_id.ad + " " + belge.personel_id.soyad + "-" + belge.ad + ".pdf"
             return response
     raise Http404
+
+def belgeOnay(request, id):
+
+    Belge.objects.filter(id = id).update(belge_durum = 3)
+
+    belge = get_object_or_404(Belge, id = id)
+
+    geriDonulecekSayfa = "/{0}/{1}".format("personelBelgeler", belge.personel_id.id)
+
+    return redirect(geriDonulecekSayfa)
+
+
+def belgeRed(request, id):
+
+    Belge.objects.filter(id = id).update(belge_durum = 4)
+
+    belge = get_object_or_404(Belge, id = id)
+
+    geriDonulecekSayfa = "/{0}/{1}".format("personelBelgeler", belge.personel_id.id)
+
+    return redirect(geriDonulecekSayfa)
