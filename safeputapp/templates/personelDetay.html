@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+    <html>
+        <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+        <title>Safeput</title>
+        </head>
+
+        <body>
+
+            <div class="container">
+
+                <nav class="navbar navbar-light bg-light">
+                    <a class="navbar-brand" href="/personelListe">
+                        <img src="https://image.flaticon.com/icons/svg/118/118739.svg" width="30" height="30" alt=""> Geri Dön
+                    </a>
+                </nav>
+
+                {% if personel %}
+
+                    <h3>Personel Detay</h3>
+
+                    <hr>
+
+                    <p>
+                        <h4>Ad:</h4>
+                        {{ personel.ad }}
+                    </p>
+
+                    <p>
+                        <h4>Soyad:</h4>
+                        {{ personel.soyad }}
+                    </p>
+
+                    <p>
+                        <h4>Adres:</h4>
+                        {{ personel.adres }}
+                    </p>
+
+                    <p>
+                        <h4>Telefon:</h4>
+                        {{ personel.telefon }}
+                    </p>
+
+                    <p>
+                        <h4>E-Posta:</h4>
+                        {{ personel.eposta }}
+                    </p>
+
+                    <p>
+                        <h4>TC Numarası:</h4>
+                        {{ personel.tcno }}
+                    </p>
+
+                    <p>
+                        <h4>Ehliyet Numarası:</h4>
+                        {{ personel.ehliyet_no }}
+                    </p>
+
+                    <p>
+                        <h4>Kan Grubu:</h4>
+                        {{ personel.kan_grubu }}
+                    </p>
+
+                    <p>
+                        <h4>SGK Numarası:</h4>
+                        {{ personel.sgk_no }}
+                    </p>
+
+                    <p>
+                        <h4>İş:</h4>
+                        {{ personel.is_id }}
+                    </p>
+
+                    <p>
+                        <h4>Belgeler:</h4>
+
+
+                    {% if belgeler %}
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Ad</th>
+                                <th scope="col">Açıklama</th>
+                                <th scope="col">Durum</th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% for belge in belgeler %}
+
+
+
+                                        <tr>
+                                            <th scope="row"> {{ belge.id }} </th>
+                                            <td> {{ belge.ad }} </td>
+                                            <td> {{ belge.aciklama }} </td>
+                                            <td> {{ belge.belge_durum }} </td>
+
+                                            <td><a href="/belgeOnizle/{{belge.id}}" class="btn btn-warning">Detay</td>
+                                            <td><a href="/belgeOnay/{{belge.id}}" class="btn btn-primary">Düzenle</td>
+                                            <td><a href="/belgeSil/{{belge.id}}" class="btn btn-danger">Sil</td>
+                                        </tr>
+
+
+
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+
+                    {% else %}
+
+                        <div class="alert alert-danger">
+                            Kayıt bulunamadı.
+                        </div>
+
+                    {% endif %}
+
+                    </p>
+
+                {% endif %}
+
+                <hr>
+
+                <a href="/belgeEkle/{{ personel.id }}" class="btn btn-primary"> Yeni Belge Ekle </a>
+
+            </div>
+
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+        </body>
+
+</html>

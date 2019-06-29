@@ -313,30 +313,43 @@ def personelBelgeler(request, id):
 
     return  render(request, "personelBelgeler.html", { "personel" : personel, "belgeler" : belgeler, "mevcutIs" : personel.is_id.id })
 
+def personelDetay(request, id):
+
+    personel = get_object_or_404(Personel, id=id)
+
+    belgeler = Belge.objects.filter(personel_id=id).filter(aktifmi = True)
+
+    return render(request, "personelDetay.html", { "personel" : personel, "belgeler" : belgeler, "mevcutIs" : personel.is_id.id })
+
 def belgeListe(request):
-
-    belgeler = Belge.objects.filter(aktifmi = True)
-
-    return render(request, "belgeListe.html", { "mevcutIs" : request.session['mevcutIs'], "belgeler" : belgeler })
-
-def belgeEkle(request):
 
     personeller = Personel.objects.filter(is_id = request.session['mevcutIs'])
 
+    belgeler = Belge.objects.filter(aktifmi = True)
+
+    return render(request, "belgeListe.html", { "mevcutIs" : request.session['mevcutIs'], "belgeler" : belgeler, "personeller" : personeller })
+
+def belgeEkle(request, id):
+
+    #personeller = Personel.objects.filter(is_id = request.session['mevcutIs'])
+
+    personel = get_object_or_404(Personel, id = id)
+
     ad = request.POST.get("ad")
     aciklama = request.POST.get("aciklama")
-    personel_id = request.POST.get("personel")
+    #personel_id = request.POST.get("personel")
+    personel_id = personel
     belge = request.FILES.get("belge")
     belge_durum = BelgeDurum.objects.get(ad = "Onay Bekliyor")
 
     if request.POST.get("ekle") :
 
-        print ("Bilgiler")
-        print (ad)
-        print (aciklama)
-        print (personel_id)
-        print (belge.size)
-        print (belge_durum)
+        #print ("Bilgiler")
+        #print (ad)
+        #print (aciklama)
+        #print (personel_id)
+        #print (belge.size)
+        #print (belge_durum)
 
         if ad and aciklama and personel_id and belge :
 
@@ -344,22 +357,22 @@ def belgeEkle(request):
 
                 path = default_storage.save('documents/'+belge.name , ContentFile(belge.read()))
 
-                personel = Personel.objects.get(id = personel_id)
+                #personel = Personel.objects.get(id = personel_id)
 
-                belge = Belge(ad = ad, aciklama = aciklama, personel_id = personel, belge = path, belge_durum = belge_durum)
+                belge = Belge(ad = ad, aciklama = aciklama, personel_id = personel_id, belge = path, belge_durum = belge_durum)
 
                 belge.save()
 
-                return render(request, "belgeEkle.html", {"personeller": personeller, "alert" : "Belge ekleme işlemi başarılı.", "alertStatus" : True})
+                return render(request, "belgeEkle.html", {"personel" : personel_id, "alert" : "Belge ekleme işlemi başarılı.", "alertStatus" : True})
 
             else :
 
-                return render(request, "belgeEkle.html", {"personeller": personeller, "alert" : "Belge ekleme işlemi başarısız! Aynı belgeyi ikinci defa yükleyemezsiniz. Farklı bir belge yükleyerek tekrar deneyin.", "alertStatus" : False})
+                return render(request, "belgeEkle.html", {"personel" : personel_id, "alert" : "Belge ekleme işlemi başarısız! Aynı belgeyi ikinci defa yükleyemezsiniz. Farklı bir belge yükleyerek tekrar deneyin.", "alertStatus" : False})
         else:
             return render(request, "belgeEkle.html",
                           {"personeller": personeller, "alert": "Belge ekleme işlemi başarısız! Tüm alanları doldurup tekrar deneyin.", "alertStatus": False})
     else:
-        return render(request, "belgeEkle.html", { "personeller" : personeller})
+        return render(request, "belgeEkle.html", { "personel" : personel_id })
 
 def belgeSil(request, id):
 
@@ -369,4 +382,6 @@ def belgeSil(request, id):
 
     belge.save()
 
-    return redirect("/belgeListe")
+    geriDonulecekSayfa = "/{0}/{1}".format("personelDetay" , belge.personel_id.id)
+
+    return redirect(geriDonulecekSayfa)

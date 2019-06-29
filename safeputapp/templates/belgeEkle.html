@@ -15,7 +15,7 @@
             <div class="container">
             
                 <nav class="navbar navbar-light bg-light">
-                    <a class="navbar-brand" href="belgeListe">
+                    <a class="navbar-brand" href="/personelDetay/{{ personel.id }}">
                         <img src="https://image.flaticon.com/icons/svg/118/118739.svg" width="30" height="30" alt=""> Geri Dön
                     </a>
                 </nav>
@@ -45,7 +45,7 @@
 
                 {% comment %} {% endif %} {% endcomment %}
 
-                <form action="belgeEkle" method="post" enctype="multipart/form-data">
+                <form action="/belgeEkle/{{ personel.id }}" method="post" enctype="multipart/form-data">
 
                     {% csrf_token %}
                     
@@ -59,6 +59,7 @@
                         <input type="text" name="aciklama" class="form-control" id="formGroupExampleInput">
                     </div>
 
+                    <!--
                     <div class="form-group">
                         <label for="formGroupExampleInput">Personel</label>
                 
@@ -77,6 +78,7 @@
 
                         </select>
                     </div>
+                    -->
 
                     <div class="custom-file mb-3">
                         <input type="file" class="custom-file-input" id="customFile" name="belge">
