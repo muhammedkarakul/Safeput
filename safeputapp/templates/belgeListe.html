@@ -38,17 +38,20 @@
                             <tbody>
 
                                 {% for belge in belgeler %}
+
+
                                     <tr>
                                         <th scope="row"> {{ belge.id }} </th>
                                         <td> {{ belge.ad }} </td>
                                         <td> {{ belge.aciklama }} </td>
                                         <td> {{ belge.personel_id }} </td>
                                         <td> {{ belge.belge_durum }} </td>
-                                        
-                                        <td><a href="/firmaDetay/{{mevcutIs.id}}" class="btn btn-warning">Detay</td>
-                                        <td><a href="/firmaDuzenle/{{mevcutIs.id}}" class="btn btn-primary">Düzenle</td>
-                                        <td><a href="/firmaSil/{{mevcutIs.id}}" class="btn btn-danger">Sil</td>
+
+                                        <td><a href="/belgeDetay/{{belge.id}}" class="btn btn-warning">Detay</td>
+                                        <td><a href="/belgeDuzenle/{{belge.id}}" class="btn btn-primary">Düzenle</td>
+                                        <td><a href="/belgeSil/{{belge.id}}" class="btn btn-danger">Sil</td>
                                     </tr>
+
                                 {% endfor %}
 
                             </tbody>

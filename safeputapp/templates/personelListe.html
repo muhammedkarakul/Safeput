@@ -40,23 +40,18 @@
 
                                 {% for personel in personeller %}
 
-                                    {% if personel.aktifmi %}
+                                    <tr>
+                                        <th scope="row"> {{ personel.id }} </th>
+                                        <td> {{ personel.tcno }} </td>
+                                        <td> {{ personel.ad }} </td>
+                                        <td> {{ personel.soyad }} </td>
+                                        <td> {{ personel.telefon }} </td>
+                                        <td> {{ personel.eposta }} </td>
 
-                                        <tr>
-                                            <th scope="row"> {{ personel.id }} </th>
-                                            <td> {{ personel.tcno }} </td>
-                                            <td> {{ personel.ad }} </td>
-                                            <td> {{ personel.soyad }} </td>
-                                            <td> {{ personel.telefon }} </td>
-                                            <td> {{ personel.eposta }} </td>
-
-                                            <td><a href="/personelDetay/{{personel.id}}" class="btn btn-warning">Detay</td>
-                                            <td><a href="/personelDuzenle/{{personel.id}}" class="btn btn-primary">Düzenle</td>
-                                            <td><a href="/personelSil/{{personel.id}}" class="btn btn-danger">Sil</td>
-                                        </tr>
-
-                                    {% endif %}
-
+                                        <td><a href="/personelDetay/{{personel.id}}" class="btn btn-warning">Detay</td>
+                                        <td><a href="/personelDuzenle/{{personel.id}}" class="btn btn-primary">Düzenle</td>
+                                        <td><a href="/personelSil/{{personel.id}}" class="btn btn-danger">Sil</td>
+                                    </tr>
 
                                 {% endfor %}
 

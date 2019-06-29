@@ -15,7 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from safeputapp.views import index, anasayfa, cikisYap, epostaGonder, epostaListe, epostaSil, firmaListe, firmaEkle, firmaSil, isListe, isEkle, isAnasayfa, isSil, personelListe, personelEkle, personelSil, belgeListe, belgeEkle
+
+# Dosyalarin yuklenecegi konumlari import ediyoruz.
+from django.conf import settings
+from django.conf.urls.static import static
+
+from safeputapp.views import index, anasayfa, cikisYap, epostaGonder, epostaListe, epostaSil, firmaListe, firmaEkle, firmaSil, isListe, isEkle, isAnasayfa, isSil, personelListe, personelEkle, personelSil, belgeListe, belgeEkle, belgeSil
 
 urlpatterns = [
 
@@ -54,5 +59,6 @@ urlpatterns = [
     ## Belge
     url(r'^belgeListe', belgeListe),
     url(r'^belgeEkle', belgeEkle),
+    url(r'^belgeSil/(?P<id>\d+)', belgeSil),
 
 ]

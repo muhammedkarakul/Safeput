@@ -45,7 +45,7 @@
 
                 {% comment %} {% endif %} {% endcomment %}
 
-                <form action="belgeEkle" method="post">
+                <form action="belgeEkle" method="post" enctype="multipart/form-data">
 
                     {% csrf_token %}
                     
@@ -80,7 +80,7 @@
 
                     <div class="custom-file mb-3">
                         <input type="file" class="custom-file-input" id="customFile" name="belge">
-                        <label class="custom-file-label" for="customFile">Choose file</label>
+                        <label class="custom-file-label" for="customFile">Belge seçimi</label>
                     </div>
 
                     <hr>

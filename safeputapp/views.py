@@ -9,9 +9,9 @@ from django.conf import settings
 
 # Belge işlemleri için eklenen django kütüphaneleri.
 #from django.core.files import File
-#from django.core.files.base import ContentFile
-#from django.core.files.storage import default_storage
-from django.core.files.storage import FileSystemStorage
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
+#from django.core.files.storage import FileSystemStorage
 
 # Zaman işlemleri için eklenen python kütüphanesi.
 import datetime
@@ -20,7 +20,7 @@ import datetime
 from .models import Firma, Is, Personel, Belge, BelgeDurum, Eposta, Kullanici, GuvenlikSeviye, IsDurum
 
 # Belgelerin kayıt edileceği konum
-fs = FileSystemStorage(location='documents/')
+#fs = FileSystemStorage(location='documents/')
 
 # Create your views here.
 
@@ -249,7 +249,7 @@ def isAnasayfa(request, id):
     return render(request, "isAnasayfa.html", { "mevcutIs" : mevcutIs })
 
 def personelListe(request):
-    personeller = Personel.objects.filter(is_id = request.session["mevcutIs"])
+    personeller = Personel.objects.filter(is_id = request.session["mevcutIs"]).filter(aktifmi = True)
     return render(request, "personelListe.html", {"mevcutIs" : request.session['mevcutIs'], "personeller" : personeller})
 
 def personelEkle(request):
@@ -299,7 +299,7 @@ def personelSil(request, id):
 
 def belgeListe(request):
 
-    belgeler = Belge.objects.all()
+    belgeler = Belge.objects.filter(aktifmi = True)
 
     return render(request, "belgeListe.html", { "mevcutIs" : request.session['mevcutIs'], "belgeler" : belgeler })
 
@@ -310,19 +310,23 @@ def belgeEkle(request):
     ad = request.POST.get("ad")
     aciklama = request.POST.get("aciklama")
     personel_id = request.POST.get("personel")
-    belge = request.POST.get("belge")
+    belge = request.FILES.get("belge")
     belge_durum = BelgeDurum.objects.get(ad = "Onay Bekliyor")
 
     if request.POST.get("ekle") :
+
+        print ("Bilgiler")
+        print (ad)
+        print (aciklama)
+        print (personel_id)
+        print (belge.size)
+        print (belge_durum)
+
         if ad and aciklama and personel_id and belge :
 
             if not Belge.objects.filter(belge = belge):
 
-                #mevcutBelge = File(belge)
-
-                #path = default_storage.save('documents/', request.FILES[mevcutBelge])
-
-
+                path = default_storage.save('documents/'+belge.name , ContentFile(belge.read()))
 
                 personel = Personel.objects.get(id = personel_id)
 
@@ -340,3 +344,13 @@ def belgeEkle(request):
                           {"personeller": personeller, "alert": "Belge ekleme işlemi başarısız! Tüm alanları doldurup tekrar deneyin.", "alertStatus": False})
     else:
         return render(request, "belgeEkle.html", { "personeller" : personeller})
+
+def belgeSil(request, id):
+
+    belge = get_object_or_404(Belge, id = id)
+
+    belge.aktifmi = False
+
+    belge.save()
+
+    return redirect("/belgeListe")
