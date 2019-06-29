@@ -20,7 +20,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 
-from safeputapp.views import index, anasayfa, cikisYap, epostaGonder, epostaListe, epostaSil, firmaListe, firmaEkle, firmaSil, isListe, isEkle, isAnasayfa, isSil, personelListe, personelEkle, personelSil, belgeListe, belgeEkle, belgeSil
+from safeputapp.views import index, anasayfa, cikisYap, epostaGonder, epostaListe, epostaSil, firmaListe, firmaEkle, firmaSil, isListe, isEkle, isAnasayfa, isSil, isDetay, personelListe, personelEkle, personelSil, personelBelgeler, belgeListe, belgeEkle, belgeSil
 
 urlpatterns = [
 
@@ -45,16 +45,18 @@ urlpatterns = [
     ## Is
     url(r'^isListe', isListe),
     url(r'^isEkle', isEkle),
-    url(r'^isAnasayfa/(?P<id>\d+)', isAnasayfa),
     url(r'^isSil/(?P<id>\d+)', isSil),
+    url(r'^isDetay/(?P<id>\d+)', isDetay),
 
     ## IsPanel
-    url(r'^personelListe', personelListe),
+    url(r'^isAnasayfa/(?P<id>\d+)', isAnasayfa),
 
     ## Personel
     url(r'^personelListe', personelListe),
     url(r'^personelEkle', personelEkle),
     url(r'^personelSil/(?P<id>\d+)', personelSil),
+    url(r'^personelBelgeler/(?P<id>\d+)', personelBelgeler),
+
 
     ## Belge
     url(r'^belgeListe', belgeListe),

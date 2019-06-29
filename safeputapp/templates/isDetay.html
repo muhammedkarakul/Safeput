@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+        <title>Safeput</title>
+
+    </head>
+
+    <body>
+
+        <div class="container">
+            <nav class="navbar navbar-light bg-light">
+                <a class="navbar-brand" href="/isListe">
+                    <img src="https://image.flaticon.com/icons/svg/118/118739.svg" width="30" height="30" alt=""> Geri Dön
+                </a>
+            </nav>
+            {% if mevcutIs %}
+
+                <h3>{{ mevcutIs.ad }} Detay</h3>
+
+                <hr>
+
+                <p>
+                    <h4>Tanım:</h4>
+                    {{ mevcutIs.tanim }}
+                </p>
+
+                <p>
+                    <h4>Fatura Numarası:</h4>
+                    {{ mevcutIs.fatura_no }}
+                </p>
+
+                <p>
+                    <h4>Güvenlik Seviyesi:</h4>
+                    {{ mevcutIs.guvenlik_seviye }}
+                </p>
+
+                <p>
+                    <h4>Durum:</h4>
+                    {{ mevcutIs.is_durum }}
+                </p>
+
+                <p>
+                    <h4>İşi Alan Firma:</h4>
+                    {{ mevcutIs.firma_id }}
+                </p>
+
+                <p>
+                    <h4>Firma Bağlantısı:</h4>
+                    <a href="{{mevcutIs.baglanti}}">Bağlantı</a>
+                </p>
+
+                <p>
+                    <h4>Personeller:</h4>
+
+                    {% if personeller %}
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">TC Numarası</th>
+                                <th scope="col">Ad</th>
+                                <th scope="col">Soyad</th>
+                                <th scope="col">Telefon</th>
+                                <th scope="col">E-Posta</th>
+
+                                <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% for personel in personeller %}
+
+                                    <tr>
+                                        <th scope="row"> {{ personel.id }} </th>
+                                        <td> {{ personel.tcno }} </td>
+                                        <td> {{ personel.ad }} </td>
+                                        <td> {{ personel.soyad }} </td>
+                                        <td> {{ personel.telefon }} </td>
+                                        <td> {{ personel.eposta }} </td>
+
+                                        <td><a href="/personelBelgeler/{{personel.id}}" class="btn btn-primary">Belgeler</td>
+
+                                    </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+
+                    {% else %}
+
+                        <div class="alert alert-danger">
+                            Kayıt bulunamadı.
+                        </div>
+
+                    {% endif %}
+                </p>
+
+            {% endif %}
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+    </body>
+</html>

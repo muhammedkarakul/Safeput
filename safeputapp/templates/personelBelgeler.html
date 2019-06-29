@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+        <title>Safeput</title>
+
+    </head>
+
+    <body>
+
+        <div class="container">
+
+            <nav class="navbar navbar-light bg-light">
+                <a class="navbar-brand" href="/isDetay/{{ mevcutIs }}">
+                    <img src="https://image.flaticon.com/icons/svg/118/118739.svg" width="30" height="30" alt=""> Geri Dön
+                </a>
+            </nav>
+            {% if personel %}
+
+                <h3>{{ personel.ad }} {{ personel.soyad }} Belgeler</h3>
+
+                <hr>
+
+                <p>
+
+                    {% if belgeler %}
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Ad</th>
+                                <th scope="col">Açıklama</th>
+                                <th scope="col">Durum</th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% for belge in belgeler %}
+
+
+                                    <tr>
+                                        <th scope="row"> {{ belge.id }} </th>
+                                        <td> {{ belge.ad }} </td>
+                                        <td> {{ belge.aciklama }} </td>
+                                        <td> {{ belge.belge_durum }} </td>
+
+                                        <td><a href="/belgeOnizle/{{belge.id}}" class="btn btn-warning">Önizleme</td>
+                                        <td><a href="/belgeOnay/{{belge.id}}" class="btn btn-primary">Onayla</td>
+                                        <td><a href="/belgeRed/{{belge.id}}" class="btn btn-danger">Reddet</td>
+                                    </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+
+                    {% else %}
+
+                        <div class="alert alert-danger">
+                            Kayıt bulunamadı.
+                        </div>
+
+                    {% endif %}
+                </p>
+
+            {% endif %}
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+    </body>
+</html>

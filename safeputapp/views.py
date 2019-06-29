@@ -239,6 +239,14 @@ def isSil(request, id):
 
     return redirect("/isListe")
 
+def isDetay(request, id):
+
+    mevcutIs = get_object_or_404(Is, id = id)
+
+    personeller = Personel.objects.filter(is_id = id)
+
+    return render(request, "isDetay.html", { "mevcutIs" : mevcutIs, "personeller" : personeller })
+
 
 def isAnasayfa(request, id):
 
@@ -296,6 +304,14 @@ def personelSil(request, id):
     personel.save()
 
     return redirect("/personelListe")
+
+def personelBelgeler(request, id):
+
+    personel = get_object_or_404(Personel, id = id)
+
+    belgeler = Belge.objects.filter(personel_id = id)
+
+    return  render(request, "personelBelgeler.html", { "personel" : personel, "belgeler" : belgeler, "mevcutIs" : personel.is_id.id })
 
 def belgeListe(request):
 
