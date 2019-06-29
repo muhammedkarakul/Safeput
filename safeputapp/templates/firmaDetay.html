@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+        <title>Safeput</title>
+
+    </head>
+
+    <body>
+
+        <div class="container">
+            <nav class="navbar navbar-light bg-light">
+                <a class="navbar-brand" href="/firmaListe">
+                    <img src="https://image.flaticon.com/icons/svg/118/118739.svg" width="30" height="30" alt=""> Geri Dön
+                </a>
+            </nav>
+
+            {% if firma %}
+
+                <h3>Firma Detay</h3>
+
+                <hr>
+
+                <p>
+                    <h4>Unvan:</h4>
+                    {{ firma.unvan }}
+                </p>
+
+                <p>
+                    <h4>Kütük Numarası:</h4>
+                    {{ firma.kutuk_no }}
+                </p>
+
+                <p>
+                    <h4>Adres:</h4>
+                    {{ firma.adres }}
+                </p>
+
+                <p>
+                    <h4>Posta Kodu:</h4>
+                    {{ firma.posta_kodu }}
+                </p>
+
+                <p>
+                    <h4>Şehir:</h4>
+                    {{ firma.sehir }}
+                </p>
+
+                <p>
+                    <h4>Telefon:</h4>
+                    {{ firma.telefon }}
+                </p>
+
+                <p>
+                    <h4>Faks:</h4>
+                    {{ firma.faks }}
+                </p>
+
+                <p>
+                    <h4>E-Posta:</h4>
+                    {{ firma.eposta }}
+                </p>
+
+                <p>
+                    <h4>İşler:</h4>
+
+                    {% if isler %}
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Ad</th>
+                                <th scope="col">Tanım</th>
+                                <th scope="col">Güvenlik Seviyesi</th>
+                                <th scope="col">Durum</th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% for mevcutIs in isler %}
+
+                                    {% if mevcutIs.aktifmi %}
+
+                                        <tr>
+                                            <th scope="row"> {{ mevcutIs.id }} </th>
+                                            <td> {{ mevcutIs.ad }} </td>
+                                            <td> {{ mevcutIs.tanim }} </td>
+                                            <td> {{ mevcutIs.guvenlik_seviye }} </td>
+                                            <td> {{ mevcutIs.is_durum }} </td>
+
+                                            <td><a href="/isDetay/{{mevcutIs.id}}" class="btn btn-warning">Detay</td>
+                                            <td><a href="/isDuzenle/{{mevcutIs.id}}" class="btn btn-primary">Düzenle</td>
+                                            <td><a href="/isSil/{{mevcutIs.id}}" class="btn btn-danger">Sil</td>
+                                        </tr>
+
+                                    {% endif %}
+
+
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+
+                    {% else %}
+
+                        <div class="alert alert-danger">
+                            Kayıt bulunamadı.
+                        </div>
+
+                    {% endif %}
+                </p>
+
+                <hr>
+
+                <a href="/isEkle/{{ firma.id }}" class="btn btn-primary"> Yeni İş Ekle </a>
+
+            {% endif %}
+
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+    </body>
+</html>

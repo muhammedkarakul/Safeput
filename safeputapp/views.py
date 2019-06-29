@@ -181,6 +181,14 @@ def firmaSil(request, id):
 
     return redirect("/firmaListe")
 
+def firmaDetay(request, id):
+
+    firma = get_object_or_404(Firma, id = id)
+
+    isler = Is.objects.filter(firma_id = id).filter(aktifmi = True)
+
+    return render(request, "firmaDetay.html", { "firma" : firma, "isler" : isler })
+
 ## Is
 
 def isListe(request):
@@ -189,7 +197,7 @@ def isListe(request):
 
     return render(request, "isListe.html", { "isler" : isler })
 
-def isEkle(request):
+def isEkle(request, id):
 
     isDurumlari = IsDurum.objects.all().first()
 
@@ -199,10 +207,12 @@ def isEkle(request):
     guvenlik_seviye = GuvenlikSeviye.objects.filter(id = request.POST.get("guvenlik_seviye")).first() #GuvenlikSeviye.objects.filter( id = request.POST.get("guvenlik_seviye") )
     is_durum = isDurumlari
     aktifmi = True
-    firma_id = Firma.objects.filter(id = request.POST.get("firma_id")).first() #Firma.objects.filter(id = request.POST.get("firma_id"))
+    #firma_id = Firma.objects.filter(id = request.POST.get("firma_id")).first() #Firma.objects.filter(id = request.POST.get("firma_id"))
+    #firma_id = Firma.objects.filter(id = id)
+    firma_id = get_object_or_404(Firma, id = id)
     olusturma_tarihi = datetime.datetime.now()
     
-    firmalar = Firma.objects.all()
+    #firmalar = Firma.objects.all()
     guvenlikSeviyeleri = GuvenlikSeviye.objects.all()
 
     if request.POST.get("ekle") :
@@ -220,14 +230,15 @@ def isEkle(request):
 
             Is.objects.filter( id = yeniIs.id ).update( baglanti = baglanti )
 
-            return HttpResponseRedirect(request.path_info, { "firmalar" : firmalar, "seviyeler" : guvenlikSeviyeleri } )
+            #return HttpResponseRedirect(request.path_info, { "firma" : firma_id, "seviyeler" : guvenlikSeviyeleri, "alert" : "İş başarılı bir şekilde eklendi.", "alertState" : True } )
+            return render(request, "isEkle.html", {"firma": firma_id, "seviyeler": guvenlikSeviyeleri, "alert": "İş başarılı bir şekilde eklendi.", "alertState": True})
         else:
             
-            return render( request, "isEkle.html", { "firmalar" : firmalar, "seviyeler" : guvenlikSeviyeleri, "alert" : "İş ekleme işlemi başarısız oldu. Tüm alanları doğru şekilde doldurup tekrar deneyin." })
+            return render( request, "isEkle.html", { "firma" : firma_id, "seviyeler" : guvenlikSeviyeleri, "alert" : "İş ekleme işlemi başarısız oldu. Tüm alanları doğru şekilde doldurup tekrar deneyin.", "alertState" : False })
 
     else:
 
-        return render(request, "isEkle.html", { "firmalar" : firmalar, "seviyeler" : guvenlikSeviyeleri })
+        return render(request, "isEkle.html", { "firma" : firma_id, "seviyeler" : guvenlikSeviyeleri })
         
 def isSil(request, id):
 

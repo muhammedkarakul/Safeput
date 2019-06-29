@@ -12,7 +12,7 @@
             <div class="container">
 
                 <nav class="navbar navbar-light bg-light">
-                    <a class="navbar-brand" href="isListe">
+                    <a class="navbar-brand" href="/firmaDetay/{{ firma.id }}">
                         <img src="https://image.flaticon.com/icons/svg/118/118739.svg" width="30" height="30" alt=""> Geri Dön
                     </a>
                 </nav>
@@ -20,16 +20,25 @@
                 <h3>İş Ekle</h3>
 
                 {% if alert %}
-                
-                    <div class="alert alert-danger">
-                        {{ alert }}
-                    </div>
+
+                    {% if alertState %}
+
+                        <div class="alert alert-success">
+                            {{ alert }}
+                        </div>
+
+                    {% else %}
+                        <div class="alert alert-danger">
+                            {{ alert }}
+                        </div>
+
+                    {% endif %}
                 
                 {% endif %}
 
                 {% comment %} {% endif %} {% endcomment %}
 
-                <form action="isEkle" method="post">
+                <form action="/isEkle/{{ firma.id }}" method="post">
 
                     {% csrf_token %}
                     
@@ -64,13 +73,13 @@
 
                         </select>
                     </div>
-
+{% comment %}
                     <div class="form-group">
                         <label for="formGroupExampleInput">Firma</label>
                 
                         <select class="custom-select" id="inputGroupSelect01" name="firma_id">
                             <option selected value="0">Firma Seçimi Yapın</option>
-                            
+
                             {% if firmalar %}
                                 {% for firma in firmalar %}
                                     {% if firma.aktifmi %}
@@ -83,7 +92,7 @@
 
                         </select>
                     </div>
-
+{% endcomment %}
                     <hr>
 
                     <button type="submit" name="ekle" value="ekle" class="btn btn-danger">Ekle</button>
