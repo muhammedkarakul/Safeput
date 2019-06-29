@@ -33,7 +33,7 @@ urlpatterns = [
     url(r'^cikisYap', cikisYap),
 
     ## Eposta
-    url(r'^epostaGonder', epostaGonder),
+    url(r'^epostaGonder/(?P<id>\d+)', epostaGonder),
     url(r'^epostaListe', epostaListe),
     url(r'^epostaSil/(?P<id>\d+)', epostaSil),
 
@@ -53,8 +53,8 @@ urlpatterns = [
     url(r'^isAnasayfa/(?P<id>\d+)', isAnasayfa),
 
     ## Personel
-    url(r'^personelListe', personelListe),
-    url(r'^personelEkle', personelEkle),
+    url(r'^personelListe/(?P<id>\d+)', personelListe),
+    url(r'^personelEkle/(?P<id>\d+)', personelEkle),
     url(r'^personelSil/(?P<id>\d+)', personelSil),
     url(r'^personelBelgeler/(?P<id>\d+)', personelBelgeler),
     url(r'^personelDetay/(?P<id>\d+)', personelDetay),

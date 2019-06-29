@@ -76,53 +76,58 @@ def cikisYap(request):
 
 ## Eposta
 
-def epostaGonder(request):
+def epostaGonder(request, id):
 
     # Anasayfada eposta sekmesine tıkladığında burası çalışacak
 
     # Is veri tabanındaki bütün nesneleri alır.
-    isler = Is.objects.all()
+    #isler = Is.objects.all()
 
     baslik = request.POST.get("baslik")
     mesaj = request.POST.get("mesaj")
     aktifmi = True
-    is_id = request.POST.get("is_id")
+    #is_id = request.POST.get("is_id")
     olusturma_tarihi = datetime.datetime.now()
+
+    mevcutIs = get_object_or_404(Is, id = id)
 
     if request.POST.get("gonder"):
 
-        if baslik and mesaj and is_id and aktifmi and olusturma_tarihi:
+        if baslik and mesaj and mevcutIs and aktifmi and olusturma_tarihi:
 
-            is_nesnesi = Is.objects.filter(id = request.POST.get("is_id")).first()
+            #is_nesnesi = Is.objects.filter(id = request.POST.get("is_id")).first()
+            #mevcutIs = get_object_or_404(Is, id = is_id)
 
             print("FIRMA ID")
-            print(is_nesnesi.firma_id)
+            print(mevcutIs.firma_id)
 
-            firma_nesnesi = Firma.objects.get(unvan = is_nesnesi.firma_id)
-            baglanti_link = is_nesnesi.baglanti
+            #firma_nesnesi = Firma.objects.get(unvan = mevcutIs.firma_id)
+            firma = get_object_or_404(Firma, id = mevcutIs.firma_id.id)
+            baglanti_link = mevcutIs.baglanti
 
             print("FİRMA EPOSTA")
-            print(firma_nesnesi.eposta)
+            print(mevcutIs.firma_id.eposta)
 
-            yeniEposta = Eposta(baslik = baslik, mesaj = mesaj, is_id = is_nesnesi, baglanti_link = baglanti_link, aktifmi = aktifmi, olusturma_tarihi = olusturma_tarihi)
+            yeniEposta = Eposta(baslik = baslik, mesaj = mesaj, is_id = mevcutIs, baglanti_link = baglanti_link, aktifmi = aktifmi, olusturma_tarihi = olusturma_tarihi)
 
             yeniEposta.save()
 
-            epostaMesaj = mesaj + "\n\n" + "Tanım:\n" + is_nesnesi.tanim + "\n\n" + "Bağlantı:\n" + is_nesnesi.baglanti
+            epostaMesaj = mesaj + "\n\n" + "Tanım:\n" + mevcutIs.tanim + "\n\n" + "Bağlantı:\n" + mevcutIs.baglanti
 
-            send_mail( yeniEposta.baslik, epostaMesaj, "muhammedkarakul@gmail.com", [ firma_nesnesi.eposta ])
+            send_mail( yeniEposta.baslik, epostaMesaj, "muhammedkarakul@gmail.com", [ firma.eposta ])
 
 
-            return HttpResponseRedirect(request.path_info, { "isler" : isler } )
+            #return HttpResponseRedirect(request.path_info, { "mevcutIs" : mevcutIs } )
+            return  render( request, "epostaGonder.html", { "mevcutIs" : mevcutIs, "alert" : "E-posta gönderme işlemi başarılı.", "alertState" : True })
 
         else:
             
-            return render( request, "epostaGonder.html", { "isler" : isler }, { "alert" : "E-posta gönderme işlemi başarısız oldu. Tüm alanları doğru şekilde doldurup tekrar deneyin." })
+            return render( request, "epostaGonder.html", { "mevcutIs" : mevcutIs, "alert" : "E-posta gönderme işlemi başarısız oldu. Tüm alanları doğru şekilde doldurup tekrar deneyin.", "alertState" : False })
 
     else:
         
     # Eposta sayfasına git. Is nesnelerini de sayfaya aktar.
-        return render( request, "epostaGonder.html", { "isler" : isler } )
+        return render( request, "epostaGonder.html", { "mevcutIs" : mevcutIs } )
     
 def epostaListe(request):
 
@@ -165,9 +170,9 @@ def firmaEkle(request):
         if kutuk_no and unvan and adres and posta_kodu and sehir and telefon and faks and eposta and aktifmi and olusturma_tarihi :
             yeniFirma = Firma(unvan = unvan, kutuk_no = kutuk_no, adres = adres, posta_kodu = posta_kodu, sehir = sehir, telefon = telefon, faks = faks, eposta = eposta, aktifmi = aktifmi, olusturma_tarihi = olusturma_tarihi)
             yeniFirma.save()
-            return render( request, "firmaEkle.html", { "firma" : yeniFirma, "alert" : "Firma ekleme işlemi başarılı." } )
+            return render( request, "firmaEkle.html", { "firma" : yeniFirma, "alert" : "Firma ekleme işlemi başarılı.", "alertState" : True } )
         else:    
-            return render( request, "firmaEkle.html", { "alert" : "Firma ekleme işlemi başarısız oldu. Tüm alanları doğru şekilde doldurup tekrar deneyin." })
+            return render( request, "firmaEkle.html", { "alert" : "Firma ekleme işlemi başarısız oldu. Tüm alanları doğru şekilde doldurup tekrar deneyin.", "alertState" : False })
     else:
         return render( request, "firmaEkle.html")
 
@@ -252,11 +257,17 @@ def isSil(request, id):
 
 def isDetay(request, id):
 
+    print ("IS ID: " + id)
+
     mevcutIs = get_object_or_404(Is, id = id)
 
-    personeller = Personel.objects.filter(is_id = id)
+    epostalar = Eposta.objects.filter(is_id = id).filter(aktifmi = True)
+    #epostalar = get_object_or_404(Eposta, is_id = id)
 
-    return render(request, "isDetay.html", { "mevcutIs" : mevcutIs, "personeller" : personeller })
+    personeller = Personel.objects.filter(is_id = id).filter(aktifmi = True)
+    #personeller = get_object_or_404(Personel, is_id = id)
+
+    return render(request, "isDetay.html", { "mevcutIs" : mevcutIs, "personeller" : personeller, "epostalar" : epostalar })
 
 
 def isAnasayfa(request, id):
@@ -267,11 +278,13 @@ def isAnasayfa(request, id):
 
     return render(request, "isAnasayfa.html", { "mevcutIs" : mevcutIs })
 
-def personelListe(request):
-    personeller = Personel.objects.filter(is_id = request.session["mevcutIs"]).filter(aktifmi = True)
+def personelListe(request, id):
+
+    personeller = Personel.objects.filter(is_id = id).filter(aktifmi = True)
+
     return render(request, "personelListe.html", {"mevcutIs" : request.session['mevcutIs'], "personeller" : personeller})
 
-def personelEkle(request):
+def personelEkle(request, id):
 
     ad = request.POST.get("ad")
     soyad = request.POST.get("soyad")
@@ -282,12 +295,13 @@ def personelEkle(request):
     ehliyet_no = request.POST.get("ehliyet_no")
     kan_grubu = request.POST.get("kan_grubu")
     sgk_no = request.POST.get("sgk_no")
-    is_id = request.session['mevcutIs']
+    #is_id = request.session['mevcutIs']
+    mevcutIs = get_object_or_404(Is, id = id)
 
     if request.POST.get("ekle"):
-        if ad and soyad and adres and telefon and eposta and tcno and ehliyet_no and kan_grubu and sgk_no and is_id:
+        if ad and soyad and adres and telefon and eposta and tcno and ehliyet_no and kan_grubu and sgk_no:
 
-            mevcutIs = Is.objects.get(id = is_id)
+            #mevcutIs = Is.objects.get(id = is_id)
 
             if not Personel.objects.filter(tcno = tcno):
 
@@ -295,15 +309,15 @@ def personelEkle(request):
 
                 yeniPersonel.save()
 
-                return  render(request, "personelEkle.html", {"alert" : "Yeni personel başarılı bir şekilde eklendi.", "alertStatus" : True})
+                return  render(request, "personelEkle.html", { "mevcutIs" : mevcutIs ,"alert" : "Yeni personel başarılı bir şekilde eklendi.", "alertStatus" : True})
             else:
                 return render(request, "personelEkle.html",
-                              {"alert": "Aynı personel ikinci kez eklenemez. TC numarasının değiştirip tekrar deneyin.", "alertStatus": False})
+                              { "mevcutIs" : mevcutIs ,"alert": "Aynı personel ikinci kez eklenemez. TC numarasının değiştirip tekrar deneyin.", "alertStatus": False})
         else:
             return render(request, "personelEkle.html",
-                          {"alert": "Personel ekleme işlemi başarısız! Tüm alanları doldurup tekrar deneyin.", "alertStatus": False})
+                          { "mevcutIs" : mevcutIs ,"alert": "Personel ekleme işlemi başarısız! Tüm alanları doldurup tekrar deneyin.", "alertStatus": False})
     else:
-        return  render(request, "personelEkle.html")
+        return  render(request, "personelEkle.html", { "mevcutIs" : mevcutIs })
 
 
 def personelSil(request, id):

@@ -19,24 +19,21 @@
 
                 <h3>Firma Ekle</h3>
 
-                {% if firma %}
+                <hr>
 
-                    {% if alert %}
+                {% if alert %}
+
+                    {% if alertState %}
 
                         <div class="alert alert-success">
                             {{ alert }}
                         </div>
 
-                    {% endif %}
-
-                {% else %}
-
-                    {% if alert %}
-                    
+                    {% else %}
                         <div class="alert alert-danger">
                             {{ alert }}
                         </div>
-                    
+
                     {% endif %}
 
                 {% endif %}

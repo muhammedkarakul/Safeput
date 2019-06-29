@@ -11,8 +11,10 @@
         
             <div class="container">
 
+                {% if mevcutIs %}
+
                 <nav class="navbar navbar-light bg-light">
-                    <a class="navbar-brand" href="epostaListe">
+                    <a class="navbar-brand" href="/isDetay/{{ mevcutIs.id }}">
                         <img src="https://image.flaticon.com/icons/svg/118/118739.svg" width="30" height="30" alt=""> Geri Dön
                     </a>
                 </nav>
@@ -21,7 +23,24 @@
                 
                 <hr>
 
-                <form action="epostaGonder" method="post">
+                    {% if alert %}
+
+                        {% if alertState %}
+
+                            <div class="alert alert-success">
+                                {{ alert }}
+                            </div>
+
+                        {% else %}
+                            <div class="alert alert-danger">
+                                {{ alert }}
+                            </div>
+
+                        {% endif %}
+
+                    {% endif %}
+
+                <form action="/epostaGonder/{{ mevcutIs.id }}" method="post">
 
                     {% csrf_token %}
                     
@@ -35,6 +54,7 @@
                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="10" name="mesaj"></textarea>
                     </div>
 
+                {% comment %}
                     <div class="form-group">
                         <label for="formGroupExampleInput">İlgili İş</label>
                 
@@ -53,14 +73,14 @@
 
                         </select>
                     </div>
-
+                {% endcomment %}
                     <hr>
 
                     <button type="submit" name="gonder" value="gonder" class="btn btn-danger">Gönder</button>
 
                 </form>
 
-                
+                {% endif %}
 
             </div>
 

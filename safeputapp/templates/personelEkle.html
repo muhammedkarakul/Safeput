@@ -12,7 +12,7 @@
             <div class="container">
 
                 <nav class="navbar navbar-light bg-light">
-                    <a class="navbar-brand" href="personelListe">
+                    <a class="navbar-brand" href="/personelListe/{{ mevcutIs.id }}">
                         <img src="https://image.flaticon.com/icons/svg/118/118739.svg" width="30" height="30" alt=""> Geri Dön
                     </a>
                 </nav>
@@ -37,7 +37,7 @@
 
                 {% endif %}
 
-                <form action="personelEkle" method="post">
+                <form action="/personelEkle/{{ mevcutIs.id }}" method="post">
 
                     {% csrf_token %}
 
