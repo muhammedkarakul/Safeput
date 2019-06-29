@@ -342,9 +342,13 @@ def personelDetay(request, id):
 
     personel = get_object_or_404(Personel, id=id)
 
+    mevcutIs = get_object_or_404(Is, id = personel.is_id.id)
+
     belgeler = Belge.objects.filter(personel_id=id).filter(aktifmi = True)
 
-    return render(request, "personelDetay.html", { "personel" : personel, "belgeler" : belgeler, "mevcutIs" : personel.is_id.id })
+    yuklenecekBelgeSayisi = mevcutIs.guvenlik_seviye.id - len(belgeler)
+
+    return render(request, "personelDetay.html", { "personel" : personel, "belgeler" : belgeler, "mevcutIs" : mevcutIs, "yuklenecekBelgeSayisi" : yuklenecekBelgeSayisi })
 
 def belgeListe(request):
 

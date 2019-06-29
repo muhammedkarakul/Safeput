@@ -12,7 +12,7 @@
             <div class="container">
 
                 <nav class="navbar navbar-light bg-light">
-                    <a class="navbar-brand" href="/personelListe/{{ personel.is_id.id }}">
+                    <a class="navbar-brand" href="/personelListe/{{ mevcutIs.id }}">
                         <img src="https://image.flaticon.com/icons/svg/118/118739.svg" width="30" height="30" alt=""> Geri Dön
                     </a>
                 </nav>
@@ -79,6 +79,19 @@
 
                     {% if belgeler %}
 
+                        {% if yuklenecekBelgeSayisi %}
+
+                            <div class="alert alert-warning">
+                                Gerekli belge sayısı: {{ yuklenecekBelgeSayisi }}
+                            </div>
+                        {% else %}
+
+                            <div class="alert alert-success">
+                                Tüm belgeler başarılı bir şekilde eklenmiştir.
+                            </div>
+
+                        {% endif %}
+
                         <table class="table">
                             <thead>
                                 <tr>
@@ -94,8 +107,6 @@
                             <tbody>
 
                                 {% for belge in belgeler %}
-
-
 
                                         <tr>
                                             <th scope="row"> {{ belge.id }} </th>
@@ -129,7 +140,11 @@
 
                 <hr>
 
-                <a href="/belgeEkle/{{ personel.id }}" class="btn btn-primary"> Yeni Belge Ekle </a>
+                {% if yuklenecekBelgeSayisi %}
+
+                    <a href="/belgeEkle/{{ personel.id }}" class="btn btn-primary"> Yeni Belge Ekle </a>
+
+                {% endif %}
 
             </div>
 
