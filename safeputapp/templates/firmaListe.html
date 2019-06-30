@@ -30,7 +30,7 @@
                                 <th scope="col">Telefon</th>
                                 <th scope="col">E-Posta</th>
                                 <th scope="col"></th>
-                                <th scope="col"></th>
+                                {% comment %}<th scope="col"></th>{% endcomment %}
                                 <th scope="col"></th>
                                 </tr>
                             </thead>
@@ -47,7 +47,7 @@
                                             <td> {{ firma.eposta }} </td>
 
                                             <td><a href="/firmaDetay/{{firma.id}}" class="btn btn-warning">Detay</td>
-                                            <td><a href="/firmaDuzenle/{{firma.id}}" class="btn btn-primary">Düzenle</td>
+                                            {% comment %}<td><a href="/firmaDuzenle/{{firma.id}}" class="btn btn-primary">Düzenle</td>{% endcomment %}
                                             <td><a href="/firmaSil/{{firma.id}}" class="btn btn-danger">Sil</td>
                                         </tr>
 

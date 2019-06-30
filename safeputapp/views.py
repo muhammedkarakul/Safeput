@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse, HttpResponseRedirect
 
 from django.core.mail import send_mail
+
 from django.conf import settings
 
 # Belge işlemleri için eklenen django kütüphaneleri.
@@ -21,7 +22,7 @@ from django.http import HttpResponse, Http404
 import datetime
 
 # Üstünde işlem yapacağımız modelleri ekliyoruz.
-from .models import Firma, Is, Personel, Belge, BelgeDurum, Eposta, Kullanici, GuvenlikSeviye, IsDurum
+from .models import Firma, Is, Personel, Belge, BelgeDurum, Eposta, Kullanici, GuvenlikSeviye, IsDurum, Guvenlik
 
 # Belgelerin kayıt edileceği konum
 #fs = FileSystemStorage(location='documents/')
@@ -340,6 +341,16 @@ def personelBelgeler(request, id):
 
     belgeler = Belge.objects.filter(personel_id = id)
 
+    onaylanmayanBelgeVarMi = True
+
+    for belge in belgeler:
+        if belge.belge_durum.id != 3:
+            onaylanmayanBelgeVarMi = False
+
+    personel.durum = onaylanmayanBelgeVarMi
+
+    personel.save()
+
     return  render(request, "personelBelgeler.html", { "personel" : personel, "belgeler" : belgeler, "mevcutIs" : personel.is_id.id })
 
 def personelDetay(request, id):
@@ -429,8 +440,8 @@ def belgeOnizle(request, id):
 
     if os.path.exists(file_path):
         with open(file_path, 'rb') as fh:
-            response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
-            response['Content-Disposition'] = 'inline; filename=' + belge.personel_id.ad + " " + belge.personel_id.soyad + "-" + belge.ad + ".pdf"
+            response = HttpResponse(fh.read(), content_type="application/pdf")
+            response['Content-Disposition'] = 'inline; filename=' + belge.personel_id.ad + " " + belge.personel_id.soyad + "-" + belge.ad
             return response
     raise Http404
 
@@ -454,3 +465,69 @@ def belgeRed(request, id):
     geriDonulecekSayfa = "/{0}/{1}".format("personelBelgeler", belge.personel_id.id)
 
     return redirect(geriDonulecekSayfa)
+
+def bilgilendirmeMailGonder(request, id):
+
+    personel = get_object_or_404(Personel, id = id)
+
+    #mevcutIs = get_object_or_404(Is, id = personel.is_id.id)
+
+    belgeler = Belge.objects.filter(personel_id = id).filter(aktifmi = True)
+
+    mesaj = "Merhaba " + personel.ad + " " + personel.soyad + ",\n\n" + "Belge onay durumunuz şu şekilde;\n\n"
+
+    for belge in belgeler :
+
+        mesaj += "Belge adı: " + belge.ad + " - Durumu: " + belge.belge_durum.ad + "\n"
+
+    mesaj += "\nİyi çalışmalar dileriz."
+
+    baslik = personel.is_id.ad + " Bilgilendirme Maili"
+
+    send_mail(baslik, mesaj, "muhammedkarakul@gmail.com", [personel.is_id.firma_id.eposta])
+
+    geriDonulecekSayfa = "/{0}/{1}".format("personelBelgeler", id)
+
+    return redirect(geriDonulecekSayfa)
+
+## Guvenlik
+
+def guvenlikGiris(request):
+
+    ad = request.POST.get("kadi")
+    sifre = request.POST.get("sifre")
+
+    personeller = Personel.objects.all()
+
+    if request.session['guvenlik'] != "" :
+
+        return render(request, "guvenlikAnasayfa.html", {"guvenlik": request.session['guvenlik'], "personeller": personeller})
+
+    else:
+
+        if request.POST.get("giris"):
+
+            print ("GİRİŞ BUTONUNA BASILDI")
+
+            guvenlik = Guvenlik.objects.filter(ad = ad).filter(sifre = sifre).first()
+
+            if guvenlik:
+
+                print ("GÜVENLİK BULUNDU")
+
+                request.session['guvenlik'] = guvenlik.ad
+
+                return render(request, "guvenlikAnasayfa.html", {"guvenlik" : request.session['guvenlik'], "personeller" : personeller})
+            else:
+
+                print ("GÜVENLİK BULUNAMADI")
+
+                return render(request, "guvenlikGiris.html", {"alert" : "Kullanıcı bulunamadı!"})
+
+        else:
+            return render(request, "guvenlikGiris.html")
+
+def guvenlikCikisYap(request):
+    request.session['guvenlik'] = ""
+    print ("SESSION SILINDI")
+    return render(request, "guvenlikGiris.html")

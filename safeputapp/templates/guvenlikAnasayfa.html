@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+    <html>
+        <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+        <title>Safeput</title>
+        </head>
+
+        <body>
+
+            <div class="container">
+
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <a class="navbar-brand" href="">Güvenlik Anasayfa</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto">
+
+                            {% comment %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/personelListe/{{ mevcutIs.id }}">Onaylananlar</a>
+                            </li>
+                            {% endcomment %}
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Ayarlar
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="guvenlikCikisYap" >Çıkış Yap</a>
+                                </div>
+                            </li>
+                        </ul>
+
+                        Merhaba, {{ guvenlik }}
+
+                    </div>
+                </nav>
+
+                <h3>Güvenlik</h3>
+
+                {% if personeller %}
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">TC Numarası</th>
+                                <th scope="col">Ad</th>
+                                <th scope="col">Soyad</th>
+                                <th scope="col">Durum</th>
+                                {% comment %}
+                            <th scope="col">Telefon</th>
+                            <th scope="col">E-Posta</th>
+
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            {% endcomment %}
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {% for personel in personeller %}
+
+                                <tr>
+                                    <th scope="row"> {{ personel.id }} </th>
+                                    <td> {{ personel.tcno }} </td>
+                                    <td> {{ personel.ad }} </td>
+                                    <td> {{ personel.soyad }} </td>
+
+                                    {% if personel.durum %}
+                                        <td style="color : green"> Giriş Onaylandı </td>
+                                    {% else %}
+                                        <td style="color : red"> Giriş Reddedildi </td>
+                                    {% endif %}
+                                    {% comment %}
+                                    <td> {{ personel.telefon }} </td>
+                                    <td> {{ personel.eposta }} </td>
+
+                                    <td><a href="/personelDetay/{{personel.id}}" class="btn btn-warning">Detay</td>
+                                    <td><a href="/personelDuzenle/{{personel.id}}" class="btn btn-primary">Düzenle</td>
+                                    <td><a href="/personelSil/{{personel.id}}" class="btn btn-danger">Sil</td>
+                                    {% endcomment %}
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+
+                {% else %}
+
+                    <div class="alert alert-danger">
+                        Kayıt bulunamadı.
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+        </body>
+
+</html>

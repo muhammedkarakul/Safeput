@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
-from .models import Firma, Is, Personel, Belge, BelgeDurum, Eposta, Kullanici, IsDurum, GuvenlikSeviye, GuvenlikBelgeTurleri
+from .models import Firma, Is, Personel, Belge, BelgeDurum, Eposta, Kullanici, IsDurum, GuvenlikSeviye, GuvenlikBelgeTurleri, Guvenlik
 
 # Register your models here.
 admin.site.register(Firma)
@@ -15,3 +15,4 @@ admin.site.register(Kullanici)
 admin.site.register(IsDurum)
 admin.site.register(GuvenlikSeviye)
 admin.site.register(GuvenlikBelgeTurleri)
+admin.site.register(Guvenlik)

@@ -76,6 +76,7 @@ class Personel(models.Model):
     aktifmi = models.BooleanField(verbose_name = "Aktif mi?", default = True)
     olusturma_tarihi = models.DateTimeField(auto_now_add = True, blank = True, verbose_name = "Oluşturma Tarihi")
     duzunleme_tarihi = models.DateTimeField(verbose_name = "Duzenleme Tarihi", blank = True, null = True)
+    durum = models.BooleanField(verbose_name = "Durum", default = False)
 
     def __unicode__(self):
         return self.ad
@@ -122,6 +123,14 @@ class Eposta(models.Model):
 
 # Kullanici nesnesini tanımlayan model.
 class Kullanici(models.Model):
+    ad = models.CharField(max_length = 50, verbose_name = "Ad", null = False, blank = False)
+    sifre = models.CharField(max_length = 50, verbose_name = "Şifre", null = False, blank = False)
+
+    def __unicode__(self):
+        return self.ad
+
+# Guvenlik nesnesini tanımlayan model.
+class Guvenlik(models.Model):
     ad = models.CharField(max_length = 50, verbose_name = "Ad", null = False, blank = False)
     sifre = models.CharField(max_length = 50, verbose_name = "Şifre", null = False, blank = False)
 
