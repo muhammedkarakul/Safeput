@@ -480,7 +480,7 @@ def bilgilendirmeMailGonder(request, id):
 
         mesaj += "Belge adı: " + belge.ad + " - Durumu: " + belge.belge_durum.ad + "\n"
 
-    mesaj += "\nİyi çalışmalar dileriz."
+    mesaj += "\n İlgili videoyu gelmeden önce izlemeniz gerekmektedir. Girişte video ile ilgili sınav yapılacaktır.\n\n Video Link: " + "http://127.0.0.1:8000/guvenlikVideo"
 
     baslik = personel.is_id.ad + " Bilgilendirme Maili"
 
@@ -531,3 +531,6 @@ def guvenlikCikisYap(request):
     request.session['guvenlik'] = ""
     print ("SESSION SILINDI")
     return render(request, "guvenlikGiris.html")
+
+def guvenlikVideo(request):
+    return render(request, "guvenlikVideo.html")
