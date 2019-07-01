@@ -33,49 +33,59 @@ from .models import Firma, Is, Personel, Belge, BelgeDurum, Eposta, Kullanici, G
 
 def index(request):
 
-    request.session['kullanici'] = ""
+    request.session['kullanici'] = None
+    request.session['guvenlik'] = None
 
     return render(request, "index.html")
+
+def anasayfaGiris(request):
+    return render(request, "anasayfaGiris.html")
 
 ## Anasayfayı ayarlar. Eğer session devam ediyorsa anasayfaya gider. Session yoksa giriş sayfasına gider.
 def anasayfa(request):
 
-    if request.method == "GET":
-        #GET tipi istekler buraya duser.
+    ad = request.POST.get("kadi")
+    sifre = request.POST.get("sifre")
 
-        #Ana sayfaya don.
+    if request.session['kullanici'] != "":
+
+        print ("SESSION BULUNDU")
 
         return render(request, "anasayfa.html")
 
     else:
-        #POST tipi istekler buraya dusur.
 
-        if request.session.get('kullanici'):
+        print ("SESSION YOK")
 
-            return render(request, "anasayfa.html")
+        if request.POST.get("giris"):
 
-        else: 
+            print ("GIRIS BUTONUNA BASILDI")
 
-            kullaniciAd = request.POST.get("kadi")
-            sifre = request.POST.get("sifre")
+            kullanici = Kullanici.objects.filter(ad=ad).filter(sifre=sifre).first()
 
-            # Form nesnemizin degerini almak.
-            kullanici = Kullanici.objects.filter(ad = kullaniciAd, sifre = sifre).first()
+            if kullanici:
 
-            if not kullanici :
+                print ("KULLANICI BULUNDU")
 
-                return render(request, "index.html", { "alert" : "Kullanıcı bulunamadı!" })
+                request.session['kullanici'] = kullanici.ad
+
+                return render(request, "anasayfa.html")
 
             else:
 
-                request.session['kullanici'] = kullanici.id
+                print ("KULLANICI YOK")
 
-                return render(request, "anasayfa.html")
+                return render(request, "anasayfaGiris.html", {"alert": "Kullanıcı bulunamadı!"})
+
+        else:
+            return render(request, "anasayfaGiris.html")
+
 
 ## Kullanıcı çıkışı yapar ve giriş sayfasına geri döner.
 def cikisYap(request):
 
     request.session['kullanici'] = ""
+    request.session['guvenlik'] = ""
 
     return render(request, "index.html")
 

@@ -20,7 +20,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 
-from safeputapp.views import index, anasayfa, cikisYap, epostaGonder, epostaListe, epostaSil, firmaListe, firmaEkle, firmaSil, firmaDetay, isListe, isEkle, isAnasayfa, isSil, isDetay, personelListe, personelEkle, personelSil, personelBelgeler, personelDetay, belgeListe, belgeEkle, belgeSil, belgeOnizle, belgeOnay, belgeRed, bilgilendirmeMailGonder, guvenlikGiris, guvenlikCikisYap, guvenlikVideo
+from safeputapp.views import index, anasayfa, anasayfaGiris, cikisYap, epostaGonder, epostaListe, epostaSil, firmaListe, firmaEkle, firmaSil, firmaDetay, isListe, isEkle, isAnasayfa, isSil, isDetay, personelListe, personelEkle, personelSil, personelBelgeler, personelDetay, belgeListe, belgeEkle, belgeSil, belgeOnizle, belgeOnay, belgeRed, bilgilendirmeMailGonder, guvenlikGiris, guvenlikCikisYap, guvenlikVideo
 
 urlpatterns = [
 
@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^$', index),
 
     ## Panel
+    url(r'^anasayfaGiris', anasayfaGiris),
     url(r'^anasayfa', anasayfa),
     url(r'^cikisYap', cikisYap),
 

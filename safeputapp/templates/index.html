@@ -11,35 +11,27 @@
         
             <div style="margin-top: 150px" class="container">
 
-                <h3>Kullanıcı Giriş</h3>
+                <h3>SAFEPUT Güvenli Giriş Sistemi</h3>
                     
-                    <hr>
+                <hr>
 
-                    <form action="anasayfa" method="post">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <label for="formGroupExampleInput">Kullanıcı Adı</label>
-                            <input type="text" name="kadi" class="form-control" id="formGroupExampleInput">
-                        </div>
+                <div class="card" style="width: 18rem; margin: auto; margin-bottom: 15px;">
+                  <img class="card-img-top" src="https://rscouncil.org/wp-content/uploads/2018/08/bio-image.png" alt="Card image cap">
+                  <div class="card-body">
+                    <h5 class="card-title">Yönetim Paneli Giriş</h5>
+                    <p class="card-text">Firma ve firmaya ait iş yönetimini bu panelden yapabilirsiniz.</p>
+                    <a href="anasayfaGiris" class="btn btn-primary">Giriş Yap</a>
+                  </div>
+                </div>
 
-                        <div class="form-group">
-                            <label for="formGroupExampleInput">Şifre</label>
-                            <input type="password" name="sifre" class="form-control" id="formGroupExampleInput">
-                        </div>
-                        <hr>
-                        <button type="submit" class="btn btn-danger">Giriş</button>
-                    </form>
-
-                    
-
-                    {% if alert %}
-
-                        <hr>
-
-                        <div class="alert alert-danger">
-                            {{ alert }}
-                        </div>
-                    {% endif %} 
+                <div class="card" style="width: 18rem; margin: auto;">
+                  <img class="card-img-top" src="https://housing.umn.edu/sites/housing.umn.edu/files/security_monitor_icon.png" alt="Card image cap">
+                  <div class="card-body">
+                    <h5 class="card-title">Güvenlik Paneli Giriş</h5>
+                    <p class="card-text">Girişi onaylanan personelleri bu panelden takip edebilirsiniz.</p>
+                    <a href="guvenlikGiris" class="btn btn-primary">Giriş Yap</a>
+                  </div>
+                </div>
 
             </div>
 
